@@ -1,17 +1,17 @@
-I've programmed C++ for the last decade and a half, but before I got my degree
-I was a reporter and copyeditor on a daily newspaper.
-Those jobs call for technical-writer skills, minus the technology:
-Reporters turn conversations into narrative. Editors coax words into clarity.
-And you'd better do it well, since readers pay your salary.
+I've written C++ for the last decade and a half, but before I got my degree I
+was a reporter and copyeditor on a daily newspaper. Those jobs call for
+technical-writer skills, minus the technology: Reporters turn conversations
+into narrative. Editors coax words into clarity. And it had better be done well,
+since readers pay your salary.
 
 Today tech is my second language, and while I don't have a writer job title, I
-have serious technical writing and editing to show you. I love to write and I'm
+have serious technical writing and editing to show you. I love words and am
 eager to help.
 
 First clip: Designersim (13,000-word user manual)
 
 For years I wrote C++ for hardware verification. Once a chip is made bugs are
-unfixable. We simulated chip designs extensively.
+unfixable. We simulated hardware designs extensively.
 
 At that time our hardware designers did no unit test  -- the verif tool took
 weeks to learn and needed too much setup. We were seeing bugs everyone wished
