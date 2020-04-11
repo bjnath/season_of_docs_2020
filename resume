@@ -4,10 +4,9 @@ Those jobs call for technical-writer skills, minus the technology:
 Reporters turn conversations into narrative. Editors coax words into clarity.
 And you'd better do it well, since readers pay your salary.
 
-Today tech is my second language, and while I don't have
-a technical writer title, I do have tech writing to show.
-
-I'm eager to show it; I'm eager to contribute to Season of Docs.
+Today tech is my second language, and while I don't have a technical writer
+title, I have tech writing and editing to show you. I'm eager to contribute to
+Season of Docs.
 
 First clip: Designersim (13,000-word user manual)
 
@@ -23,7 +22,7 @@ it using this document.
 
 Since nobody approached me I thought I'd failed, but it turned out to have been
 a documentation success story -- designers read the spec and began using the
-tool on their own.
+environment on their own.
 
 Second clip: Editorial skills
 
@@ -116,7 +115,16 @@ Hardware designers had no unit test environment to find the easy bugs
 before turning the design over to the verifiers. The verification tools were too difficult
 for casual use. To fill the gap I created a unit sim environment for hardware designers
 and actively promoted it, using the documentation I've enclosed. On the
-strength of it, several designers adopted the tool. I didn't
+strength of it, several desigI've programmed C++ for the last decade and a half, but before I got my degree
+I was a reporter and copyeditor for a daily newspaper.
+Those jobs call for technical-writer skills, minus the technology:
+Reporters turn conversations into narrative. Editors coax words into clarity.
+And you'd better do it well, since readers pay your salary.
+
+Today I'm an engineer and technology is my second language. While I don't have
+a tech writer title, I have tech writing to show you, and I'm
+eager to contribute some new writing during Season of Docs.
+ners adopted the tool. I didn't
 know exactly how many at first, because nobody was asking me questions. I was
 happy to find they had gotten everything they needed from the documentation.
 
