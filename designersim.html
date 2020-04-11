@@ -1,0 +1,3174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Designer sim instructions</title></head>
+<body>
+<h1 style="font-family: Georgia;"><a name="BGQ_designersim"></a>BG/Q designersim</h1>
+The BG/Q designersim tools streamline the&nbsp;testing of new VHDL.
+You
+can perform verification on your component with no Fusion knowledge,
+exploring the design&nbsp;and getting a cleaner component before
+you
+integrate.
+<ul>
+<li>Compile VHDL and go:</li>
+<ul>
+<li>Clocks and reset drivers created and hooked up
+automatically</li>
+</ul>
+<ul>
+<li>Lower-level hierarchy&nbsp;incorporated automatically</li>
+</ul>
+<li>Creates a starter set of waveform-viewer signals
+--&nbsp;inputs,
+outputs, clocks, reset, DCR</li>
+<li>Works at subunit or top levels</li>
+<li>Interactive simulation.&nbsp;Sample capabilities:</li>
+<ul>
+<li>Advance simulation to a point of interest: </li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>run until
+cycle == 250 || Slow_count_q &gt;= 0xFEABC;<br>
+</code></div>
+<ul>
+<ul>
+<li>Monitor conditions and automate checking:</li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>warn "Timeout
+never fired" if cycle == 1000 and Timeout == 0<br>
+</code></div>
+<ul>
+<ul>
+<li>Drive a random data value&nbsp;if a condition is met:</li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>rndput Wrdata
+if Ack == 1</code></div>
+<ul>
+<li>Programmable&nbsp;in Perl, via script or command line
+&nbsp;</li>
+<li>Understands BG/Q clocking (x1,...,x16)</li>
+<li>Same underlying simulator (Mesa) as larger BG/Q simulations</li>
+<li>Three-state simulation available (all latches initially 'X')</li>
+<li>DCR&nbsp; utility, also hooked up
+automatically</li>
+</ul>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+<h2>Quickstart:</h2>
+<h3>Simulation setup:</h3>
+<ol>
+<li>If you've never run the tools before, see <a href="#If_youve_never_run_the_tools_before:">here</a>.</li>
+<li>Getting new&nbsp;VHDL into designer
+sim&nbsp;consists of a single step, running <code>newdir. </code>It
+will <a href="#newdir_options">prompt</a> for unit
+name (VHDL library) and entity.<code></code></li>
+<li>The tool sets up a working
+directory under <code>designersim</code>
+in the bgq tree. &nbsp;It will offer to compile the VHDL and build
+a model.</li>
+<li>When newdir completes, press middle mouse button, then <code>enter.</code>
+This takes you to&nbsp;the <a href="#Working_directories">working
+directory</a> for simulation.<code></code></li>
+</ol>
+<h3>Starting a simulation:</h3>
+<ol>
+<li><span style="font-weight: bold;">Starting
+simulator:</span> From working directory, run&nbsp;<code>desi</code>
+for interactive sim.</li>
+<li><span style="font-weight: bold;">Starting
+waves:&nbsp;</span> Type <code></code><code>mantis</code>&nbsp;
+from the desi command line to&nbsp;start the waveform viewer. Run
+at least one cycle first; the waves won't&nbsp;come up
+without&nbsp;a non-zero-length
+AET file. In Mantis, press <code>Alt-6</code>
+(or select <code>Windows-&gt;AET control</code>)
+&nbsp;to bring up the small <code>AetControl </code>window.
+(If you are running Hummingbird Exceed, use the&nbsp;<code>Alt
+</code>key at the
+right of the spacebar).&nbsp;</li>
+</ol>
+<h3>Running&nbsp;simulation:</h3>
+<ol>
+<li><code style="font-weight: bold;">run</code><span style="font-weight: bold;"> </span>to advance time.
+&nbsp;Signal setting/viewing commands.&nbsp;<code>myperl</code>
+user scripts. </li>
+<li><span style="font-weight: bold;">Updating waves</span>:&nbsp;Press
+<code>Reload</code>
+in the <code>AetControl</code> window, or &nbsp;hold <code>Alt</code>
+and press <code>6R</code>.</li>
+<li><span style="font-weight: bold;">Writing and
+running scripted routines:&nbsp;<span style="text-decoration: underline;"><span style="font-weight: bold;"><span style="text-decoration: underline;"><span style="text-decoration: underline;"></span></span></span></span><span style="font-weight: bold;"></span></span>add
+them to the file <code>myperl</code>; run <code>reload</code>
+to pick up the changes</li>
+</ol>
+<h3>Iterating on a design:</h3>
+<ol>
+<li><span style="font-weight: bold;">Compile</span>:<code>&nbsp;respin</code>
+from the desi command line rebuilds the VHDL and returns simulation to
+the current&nbsp;point, or displays the&nbsp;logfile if
+compilation
+fails. <code></code></li>
+<li>The&nbsp;waveform window&nbsp;can stay up between
+simulations. It's OK for the AET to be overwritten, even by a shorter
+AET. The&nbsp;<code>Reload</code> button will show the
+new waveform.<span style="font-family: monospace;"><br>
+</span></li>
+</ol>
+<h3><a name="If_youve_never_run_the_tools_before:"></a>If
+you've never run the tools before:</h3>
+<ol>
+<li>The tools run only under Linux. They've been tested in the
+bg&nbsp;machines in the<a href="../../cluster/index.html">
+Linux cluster</a>. They do not work on
+the pcserv machines that are still running FC3.</li>
+<li>If you haven't already, set the environment variable <a href="#BGQHOME"><code>BGQHOME</code></a>
+in
+your login profile (.bashrc, .cshrc, etc). This is the path up to but
+not including your&nbsp;<code>bgq</code> directory. If
+you don't yet have a <code>bgq</code> directory, the the
+tool will create one at <code>$BGQHOME</code>.</li>
+<li>Add<code> $BGQHOME/bgq/hwsim/src/fusion/designersim</code>
+to your <a href="#designersim_path">path</a>.</li>
+<li>For the <code>newdir</code> step,&nbsp;run
+<code>/gsa/yktgsa/projects/b/bgq/web/verification/designer_sim/newdir</code>.
+If you don't have a hwsim directory or ddx directory, <code>newdir</code>
+will offer to install them. <code>newdir</code> will also
+install itself, so you no longer need to use the path.</li>
+<li>To stay abreast of&nbsp;designersim updates, subscribe
+to the <code>designersim_envt</code> category in <a href="../../tools/howTo_BUGS.html">Issues</a>.</li>
+</ol>
+<h2><a name="Contents"></a>Contents</h2>
+<ul><li><a href="#Whats_covered_here">What's covered
+here</a></li>
+<li><a href="#Signal_names">Signal names</a></li>
+<li><a href="#Signal_values">Signal values</a></li>
+<li><a href="#Signal_assignment_gotcha_--_youve_been">Signal
+assignment gotcha -- you've been warned...</a></li>
+<li><a href="#Commands_on_signals">Commands
+on signals</a></li>
+<li><a href="#Put_and_stick:_cycle_sim_vs_event_sim">Put
+and stick: cycle sim vs event sim</a>
+</li>
+<li><a href="#Time">Time</a></li>
+<li><a href="#Language">Language</a></li>
+<li><a href="#Commands_starting_new_windows">Commands
+starting new windows</a></li>
+<li><a href="#Waveform_contents">Waveform
+contents</a></li>
+<li><a href="#The_script_file">The&nbsp;script
+file</a></li>
+<li><a href="#Session_logging_and_recovery">Session
+logging and recovery</a></li>
+<li><a href="#Working_directories">Working
+directories</a></li>
+<li><a href="instructions.html#newdir_options"><code>newdir</code>
+options</a></li>
+<li><a href="#VHDL_requirements">VHDL&nbsp;requirements</a></li>
+<li><a href="#Where_PortalsMesa_output_files_are">Where
+Portals
+/Mesa output files are</a></li>
+<li><a href="#Error_messages">Error
+messages</a></li>
+<li><a href="instructions.html#Starting_over">Starting over</a></li>
+<li><a href="instructions.html#xg">Quasi-drag-and-drop
+signal names</a></li>
+<li><a href="#Using_SVN">Using
+SVN</a></li>
+<li><a href="#BGQHOME">BGQHOME</a></li><li><a href="#designersim_path">$BGQHOME/bgq/hwsim/src/fusion/designersim</a></li>
+<li><a href="#Shell_commands">Shell
+commands</a></li>
+<li><a href="#Native_Fusion_interface">Native&nbsp;Fusion&nbsp;interface</a></li>
+<li><a href="#Long_goodbyes">Long
+goodbyes</a></li>
+<li><a href="#Noninteractive_designer_sim">Noninteractive
+designer sim</a></li>
+<li><a href="instructions.html#assert_off">Suspending
+Mesa <code>ASSERT</code>
+messages</a></li>
+<li><a href="#Perl_and_FLite">Perl
+and FLite</a></li>
+<li><a href="#Desi_and_Fusion">Desi
+and Fusion</a></li>
+<li><a href="instructions.html#Re-pathing_designersim">Re-pathing
+designersim</a></li>
+</ul>
+<br>
+<h2><a name="Whats_covered_here"></a>What's
+covered here</h2>
+This document describes an&nbsp;interactive interface to the
+Mesa&nbsp;simulator, driven by&nbsp;interactive commands and
+Perl
+scripts, for early debug and small-scale&nbsp;semiautomated
+verification. <br>
+<br>
+The environment doesn't synthesize stimulus or checkers. You write
+these. But it does away with&nbsp;routine tasks like hooking up
+clocks
+and declaring signal names, and lets you drive and observe your design
+with high-level commands. The hope is that simple tests are simple to
+write,&nbsp;that
+getting a design into simulation is effortless, and that
+design-compile-debug iteration is fast and straightforward.<br>
+<br>
+Part of the motivation&nbsp;for this environment is that the same
+environment, and same simulator, can also be hooked up with more
+complex and production-oriented
+tools -- FLite for stimulus and checking, and Fusion&nbsp;for
+interfacing with other tools (Bugspray, PSL). The
+environment&nbsp;in fact uses both.&nbsp;
+<h2><a name="Signal_names"></a>Signal names</h2>
+<p>
+Signal names used in&nbsp;<code>desi</code>
+are&nbsp;net
+names with the first letter capitalized:</p>
+<div style="margin-left: 40px;"><code>reset
+&nbsp; &nbsp; &nbsp; &nbsp;</code> &#8594; <code>Reset</code><code><br>
+slow_clock_q</code> &nbsp; &#8594; <code>Slow_clock_q</code><br>
+</div>
+<br>
+To select a bit, use parens:<br>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(32)</code></p>
+<code></code></div>
+To select a bit range, use&nbsp;comma or dot-dot (not colon); the
+notations are equivalent:<br>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(20,32)</code></p>
+</div>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(20..32)</code></p>
+<code></code></div>
+Dots in the net name (for hierarchy) are changed to underscores, as are<code></code><code></code>
+hashmarks&nbsp;(on signals created by Portals from VHDL generate
+statments)
+and percent marks (from who knows where):<br>
+<div style="margin-left: 40px;">
+<p><code>ctrl.reset&nbsp;</code>&#8594;<code>
+</code><code>Ctrl_reset</code><code></code></p>
+<p><code>CLEAR_F.LL.BIT#0.LP.ZZ.VITALBEHAVIOR.L1CLK</code>
+&#8594;&nbsp; <code>Clear_f_ll_bit_0_lp_zz_vitalbehavior_l1clk&nbsp;&nbsp;&nbsp;</code><br>
+</p>
+<code></code></div>
+<p>It's possible that the underscore mapping will give the
+same&nbsp;name to more than one net; the tool reports this:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<code>(W) Multiple nets
+map to signal name Dut_lu_srt_en: DUT.LU_SRT_EN and DUT.LU.SRT_EN
+at&nbsp;/ltmp/bjn/bgq/hwsim/src/fusion/designersim/ModelLoad.pm
+line
+198, &lt;$LNET&gt; line 456.</code></p>
+<p>This isn't automatically a problem. It
+matters
+only if&nbsp;these&nbsp;are signals you&nbsp;plan to
+manipulate&nbsp;through desi (there's no effect on Fusion or Mesa).
+There's a mechanism&nbsp;to sidestep the problem;&nbsp;see me.</p>
+<p>If a default name is cumbersome, it's easy to alias a shorter
+one:</p>
+<div style="margin-left: 40px;">
+<p><code>sub Little_me
+{Bicstop_fast_ll_bit_0_lp_zz_vitalbehavior_l1clk(@_)};</code></p>
+</div>
+<p><code></code><span style="font-family: monospace;"></span>Remember to
+follow the capitalization convention and append&nbsp;<code>(@_)</code>&nbsp;as
+shown; that allows bit ranges in the alias to be transferred to the
+real signal.&nbsp;</p>
+You can drop a vhdl netname&nbsp;from the X clipboard to the
+command line using <a href="#xg">xg</a>, which
+translates it to a desi signal name.<br>
+<br>
+<h2><a name="Signal_values"></a>Signal values</h2>
+<code>0x</code> for hex, <code>0b</code> for
+binary, otherwise, decimal. There's no convenient way to denote octal.
+Leading 0 is <em>not</em> treated as octal. No quotes.<br>
+<div style="margin-left: 40px;"><code><br>
+(Cyc:0) <span style="font-weight: bold;">st Reset, 10</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+trimming 0xa to 0x0 to fit bit range 0..0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::stickhex(0x0,RESET)<br>
+</code></div>
+<code><br>
+</code>You&nbsp;can insert underscores for readability:<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">$x = 123_456_789_876_543_210</span></code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+"$x\n"</span></code><br>
+<code>123456789876543210</code><br>
+</div>
+<br>
+By default, values print as decimal. Use&nbsp;<code>-&gt;as_hex()</code>
+to see hex; don't use <code>printf "%x".</code><br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">$x =
+0xFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF</span></code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+"$x\n"</span></code><br>
+<code>340282366920938463463374607431768211455</code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+$x-&gt;as_hex, "\n"</span></code><br>
+<code>0xffffffffffffffffffffffffffffffff</code><br>
+</div>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">printf "%x\n", $x</span></code><br>
+<code>ffffffff</code><br>
+<code></code></div>
+<br>
+These operators can be used directly with signal operands:<br>
+<br>
+<code></code>
+<div style="margin-left: 40px;"><code>&amp;&nbsp;</code><br>
+<code>|&nbsp;</code><br>
+<code></code><code>^ </code><br>
+<code></code><code>&lt;&lt;</code><br>
+<code>&gt;&gt;</code><br>
+<code></code><code>+ </code><br>
+<code></code><code>&gt;</code><br>
+<code>&lt;</code><br>
+<code>==</code><br>
+<code>!=</code><br>
+<code>&gt;=</code><br>
+<code>&lt;=<br>
+<br>
+</code></div>
+<h3>The "+0" trick</h3>
+Notice that&nbsp;values can be arbitrarily large, permitting you to
+read and write buses with thousands of bits. Perl is
+doing&nbsp;magic
+when it sees digits; it converts the number to an infinite-precision
+type. <br>
+<br>
+Unfortunately, when it <span style="font-style: italic;">doesn't</span>
+see digits, it messes up. You would expect this to work:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $data =
+int&nbsp;rand(8192);</code><br>
+<code>stick&nbsp;L1p_upc_mmio_in(17,80), $data</code><code></code><code></code></div>
+<code>
+</code><code></code><br>
+but it returns <br>
+<div style="margin-left: 40px;"><code>Can't call
+method "as_hex"
+without a package or object reference at
+/ltmp/bjn/bgq/hwsim_unitsim/src/fusion/designersim/FacCmds.pm line 176.<br>
+<br>
+</code></div>
+The rand&nbsp;output is being treated as a plain integer rather
+than&nbsp;being converted to an infinite-precision type, causing
+other
+parts of the code which expect the type to fail. The fix is easy: add 0
+to the result of the function:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $data =
+int&nbsp;rand(8192) <span style="font-weight: bold;">+
+0</span>;</code><br>
+<code>stick&nbsp;L1p_upc_mmio_in(17,80), $data</code><code></code><code></code></div>
+<code>
+</code><code></code><br>
+The&nbsp;digit triggers an&nbsp;infinite-precision conversion,
+and the code works as expected.<br>
+<h3>Subtraction, multiplication, division</h3>
+Subtraction, division, and multiplication of signals can be buggy due
+to problems in the Perl library. Contact me if you need this in a
+script, or consider shifting at least this part of the coding to FLite.<br>
+<br>
+Of course there are no restrictions on ordinary arithmetic expressions
+without signal operands.<br>
+<h2><a name="Signal_assignment_gotcha_--_youve_been"></a>Signal
+assignment gotcha -- you've been warned...</h2>
+Beware: Although much effort has gone into making signals act like
+numbers,&nbsp;the charade breaks in variable
+assignment.&nbsp;You might very reasonably write this to store a
+signal value:<br>
+<br>
+<div style="margin-left: 40px;"><code>$old_ctrl =
+Ctrl;</code><br>
+</div>
+<p>but it doesn't&nbsp;behave like it looks. It in fact
+acts&nbsp;like
+a pointer assignment. The variable becomes an alias for the signal, so
+when <code>Ctrl</code> changes, <code>$old_ctrl</code>
+changes as well.&nbsp;</p>
+<p>To avoid this, use<code> -&gt;as_number:</code></p>
+<p style="margin-left: 40px;"><code>$old_ctrl =
+Ctrl-&gt;as_number;</code></p>
+<span style="font-weight: bold;">
+</span><span style="font-weight: bold;"></span>
+<h4>Assigning to a signal</h4>
+You also can't assign anything to a signal. If you try it: <br>
+<div style="margin-left: 40px;"><code><br>
+Reset = 0;<br>
+</code></div>
+<br>
+you'll get stopped&nbsp;immediately:<br>
+<code><br>
+</code>
+<div style="margin-left: 40px;"><code>Assigning to
+signal? in scalar assignment at (eval 101) line 2, at EOF</code><code></code><br>
+<code></code></div>
+<code><br>
+</code>
+<h3><code></code>Random generation</h3>
+<code>random_range(</code><span style="font-style: italic;">x</span><code>,</code><span style="font-style: italic;">y</span><code>)</code>
+<ul>
+</ul>
+<div style="margin-left: 40px;"><code></code>
+Returns a random&nbsp;integer&nbsp;in an&nbsp;indicated
+range (inclusive of <span style="font-style: italic;">x</span>
+and <span style="font-style: italic;">y</span>).
+Big numbers and big ranges are OK;&nbsp;it isn't&nbsp;limited
+to 32 or 64 bits.&nbsp;
+</div>
+<div style="margin-left: 80px;"><code><br>
+(Cyc:97) <span style="font-weight: bold;">$x =
+random_range(0xFFFF_FFFF, 0xF_FFFF_FFFF)</span><br>
+(Cyc:97) <span style="font-weight: bold;">print "$x\n"</span><br>
+15907648532<br>
+(Cyc:97) <span style="font-weight: bold;">print
+$x-&gt;as_hex, "\n"</span><br>
+0x3b42b7414<br>
+<br>
+</code></div>
+<div style="margin-left: 40px;">
+To assign a random value to a signal, see the <code>rndstick</code>,
+etc., commands
+below.<br>
+</div>
+<code><br>
+</code><br>
+<h2><a name="Commands_on_signals"></a>Commands on signals</h2>
+<code>put</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>p</code>&nbsp;&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp; &nbsp;# same command, shorter name<br>
+&nbsp;&nbsp;<br>
+<code>stick</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>st</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp; # same command, shorter name
+<p style="margin-left: 40px;">These take effect after the
+next simulator clock. On subsequent cycles,
+drivers in the design can override a put value but not a stick
+value.&nbsp;</p>
+<code><br>
+puti</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>pi</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp;# same command, shorter name<code><br>
+<br>
+sticki</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><code><br>
+si</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+# same command, shorter name
+<p style="margin-left: 40px;">These take immediate effect
+(don't wait for a simulator clock):</p>
+<p><code></code></p>
+<p><code>unstick</code> <span style="font-style: italic;">signalname</span></p>
+<p style="margin-left: 40px;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span>Remove
+the forcing behavior of a stick. If a stick and unstick are driven the
+same cycle, the unstick wins, regardless of the order in which they
+were applied. It's not necessary to unstick a signal&nbsp;before
+sticking it to a new value.<span style="font-style: italic;"><span style="font-style: italic;"></span></span></p>
+<p style="margin-left: 40px;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span><span style="font-style: italic;"><span style="font-style: italic;"></span></span>
+</p>
+<code>get</code> <span style="font-style: italic;">&nbsp;signalname</span><br>
+<code>g </code>&nbsp;<span style="font-style: italic;">signalname</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;# same command, shorter name<br>
+<code>getc&nbsp;<span style="font-style: italic;"></span></code><span style="font-style: italic;">signalname</span><code><span style="font-style: italic;"></span></code><br>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><code></code></div>
+<code>
+</code></div>
+<div style="margin-left: 40px;">
+View a signal value: <code>get</code><code></code><span style="font-family: monospace;"> </span>displays hex
+values, <code>getc</code> displays binary. To see X's
+during multilevel sim, use <code>getc</code>; ordinary <code>get</code>
+will display 0's.
+</div>
+<div style="margin-left: 40px;"></div>
+<code>rndput</code> <span style="font-style: italic;">&nbsp;signalname</span><code></code><br>
+<code>rndstick</code> <span style="font-style: italic;">&nbsp;signalname</span><code></code><br>
+<code>rndputi</code>&nbsp;<span style="font-style: italic;">signalname</span><code></code><code></code><br>
+<code>rndsticki</code>&nbsp;<span style="font-style: italic;">signalname</span><br>
+<code></code>
+<p style="margin-left: 40px;">Drive a signal to a random
+values.
+Every invocation drives a new random value. (To drive a different
+random signal
+every cycle, they need to be called each cycle.) The commands use
+the Fusion seed, so if a session is run again with the same
+Fusion seed,&nbsp;the same numbers are generated. The <code>reload
+</code>command&nbsp;resets the seed used by all Perl randoms
+to the seed's&nbsp;value at the beginning
+of simulation. &nbsp;All these commands, and also<code>
+random_range</code>,&nbsp; share one random generator, so
+if you add a random command A ahead of random command B, B's outputs
+will&nbsp;change&nbsp;even if the seed
+is unchanged. &nbsp;For an example of&nbsp;a routine that runs
+at random times (rather than supplying random values at known times),
+see myperl.</p>
+<h2><a name="Put_and_stick:_cycle_sim_vs_event_sim"></a>Put and stick: cycle sim vs event sim</h2>
+<code>put</code> gives you control of a net&nbsp;for
+just one
+simulator&nbsp;cycle. After that&nbsp;cycle, the simulator goes
+back to
+driving the net. If&nbsp; you're driving&nbsp;an input pin<code>,put</code>
+works fine on any cycle, because nothing else in the simulation is
+trying to drive it. But if it's an internal signal,&nbsp;<code>put</code>&nbsp;needs
+to be strategically timed so it's&nbsp;at a
+latch input on the sim cycle before the latch is clocked. If you drive
+it on
+another cycle, the simulator will wrest away your put
+value&nbsp;before the latch can see it. <br>
+<br>
+This is unexpected if you're used to event simulation.<code></code><code></code>
+An event&nbsp;simulator would leave your&nbsp;<code>put</code>
+alone until an upstream net changes.<br>
+<br>
+It's easier to apply <code>stick</code>, but <code>stick</code>&nbsp;isn't
+self-canceling; to free the simulator to drive the net again you need
+to&nbsp;<code>unstick</code>. The challenge in stick is
+not staying but getting out in time.<br>
+<br>
+Here is a possible sequence for coding a <code>put</code>&nbsp;&nbsp;for
+an x16 latch<code></code>. The example uses the desi
+command <code>sim_clocks_to_xN</code>, which returns the
+number of sim clocks till the next xN clock.<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:545) <span style="font-weight: bold;">run until sim_clocks_to_xN(16) ==
+1</span>&nbsp; # go one sim cycle short of a full x16 clock<br>
+(Cyc:576) <span style="font-weight: bold;">puti
+Slow_count_d, 0xdeadbeef</span> # put immediate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::puthexImmed(0xdeadbeef,SLOW_COUNT_D)<br>
+<br>
+</code></div>
+The clock grabs the input, and then the latch drives it:<br>
+<div style="margin-left: 40px;"><code>(Cyc:576) <span style="font-weight: bold;">run 2</span> # x16 clock
+grabs value on first clock; latch shows output on second<br>
+(Cyc:578) <span style="font-weight: bold;">get
+Slow_count_q</span> # shows 0xdeadbeef<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SLOW_COUNT_Q(0:38)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0x00deadbeef</code><br>
+<br>
+</div>
+The business of inching up to the clock&nbsp;has been automated
+with the command <code>pput</code> (for precision put, or
+power&nbsp;put).<br>
+<div style="margin-left: 40px;"><code>(Cyc:576) <span style="font-weight: bold;">pput 'x16', Slow_count_q,
+0xdeadbeef</span></code><code><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::unstick(SLOW_COUNT_Q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::puthexImmed(0xdeadbeef,SLOW_COUNT_Q)</code><br>
+<br>
+</div>
+Using <code>stick</code>:<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:833) <span style="font-weight: bold;">run 7</span> # any
+arbitrary sim cycle</code><br>
+<code>(Cyc:840) <span style="font-weight: bold;">sticki&nbsp;
+Slow_count_d, 0xdeadbeef</span> # <span style="font-style: italic;">stick</span> immediate</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fac ility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
+<code>(Cyc:840) <span style="font-weight: bold;">runx16
+</span># hit a latch clock</code><br>
+<code>(Cyc:865) <span style="font-weight: bold;">unstick&nbsp;Slow_count_d
+</span># job's done</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::unstick(SLOW_COUNT_D)</code><br>
+<code>(Cyc:865) run 1 # look at latch output</code><br>
+<code>(Cyc:866)&nbsp;</code><code><span style="font-weight: bold;">get Slow_count_q</span> #
+shows 0xdeadbeef</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SLOW_COUNT_Q(0:38)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0x00deadbeef</code><br>
+</div>
+<br>
+<br>
+How&nbsp;the <code>put</code> sequence looks in the
+waves:
+<div style="margin-left: 40px;"><code></code></div>
+<img style="width: 804px; height: 351px;" alt="Waveform showing put" src="./put.gif"><br>
+<br>
+<code>0xdeadbeef</code> is <code>put</code> on
+<code>slow_count_d</code>
+one sim cycle before the rising x16 clock (where the marker is). Notice
+that on the next sim cycle, the simulator goes back to driving <code>slow_count_d</code>.
+But the latch has picked up <code>0xdeadbeef</code>, and
+it's visible on <code>slow_count_q</code> in the cycle
+after clkx16 goes high. The VHDL feeds back <code>slow_count_q</code>
+to <code>slow_count_d</code>, so <code>0xdeadbeef</code>
+now also appears on <code>slow_count_d</code>.<br>
+<h2><a name="Time"></a>Time</h2>
+<code>run cycles</code><br>
+<p style="margin-left: 40px;">Advance <span style="font-style: italic;">cycles </span>simulator
+clocks (default 1). Each simulator clock is&nbsp;half an x1 cycle.
+<span style="font-family: monospace;"></span></p>
+<code><br>
+</code>
+<code>runx1 </code>cycles<br>
+<code>runx2 </code>cycles<br>
+<code>runx4</code> &nbsp;cycles<br>
+<code>runx8</code> &nbsp;cycles<br>
+<code>runx16</code> cycles
+<p style="margin-left: 40px;">With no args, or cycles = 1,
+run to the next rising edge of
+the&nbsp;named x<span style="font-style: italic;">N</span>
+clock (eg, x16 clock for runx16). This can be less than a full x<span style="font-style: italic;">N</span> cycle if you
+are&nbsp;in the middle of an x<span style="font-style: italic;">N</span>
+cycle. Subsequent
+cycles,
+if any (<span style="font-style: italic;">cycles</span>
+&gt; 1), will be full x<span style="font-style: italic;">N</span>
+clocks. An
+x<span style="font-style: italic;">N</span> clock
+cycle is 2<span style="font-style: italic;">*N</span>
+simulator cycles.</p>
+<code>run_past_reset</code><br>
+<div style="margin-left: 40px;">
+<code></code></div>
+<div style="margin-left: 40px;">
+Take simulation to the falling edge of reset. No effect if reset has
+already fallen.<code></code><code></code></div>
+<p><code>cycle</code></p>
+<div style="margin-left: 40px;">
+Return the current cycle; used in scripts. Fusion&nbsp;maintains
+the cycle as a 64-bit number; <code>cycle</code> returns
+only the lower 32 bits. I
+didn't expect interactive sessions to last much beyond 4 billion cycles.<br>
+</div>
+<br>
+<code><br>
+cyclex1</code><br>
+<code>cyclex2</code><br>
+<code>cyclex4</code><br>
+<code>cyclex8</code><br>
+<code>cyclex16</code><br>
+<code></code><code></code><code></code>
+<div style="margin-left: 40px;">
+<p>Return the current x<span style="font-style: italic;">N</span>
+cycle (the number of x<span style="font-style: italic;">N</span>-clock
+rising edges&nbsp;since cycle 0). The answer is floating-point,
+which permits a test like <code>cyclex16 == 23</code>
+to return&nbsp;true only at the 23rd rising edge but also gives a
+useful answer on&nbsp;cycles between edges. (Precision is
+adequate&nbsp;for practical&nbsp;runtimes).</p>
+</div>
+<br>
+<div style="margin-left: 40px;"><code></code><br>
+</div>
+<code>q</code><br>
+<code>
+quit</code><br>
+<code>
+</code><code>exit</code>
+<p style="margin-left: 40px;">End the session from the
+command line. To end the session from a script, use <code>quit</code>().</p>
+<h2><a name="Language"></a>Language</h2>
+<p>The command-line and scripting language is Perl. Along with
+the usual C-like syntax,</p>
+<div style="margin-left: 40px;"><code>&nbsp;while
+(Reset == 0) {</code><br>
+<code>&nbsp;&nbsp;&nbsp; run</code><br>
+<code>}</code><br>
+<code></code></div>
+<p>Perl also allows surprisingly natural expressions</p>
+<div style="margin-left: 40px;"><code>run until
+Reset == 1</code><br>
+</div>
+<br>
+<p>Desi allows&nbsp;signals of any size to&nbsp;be
+compared and manipulated with the
+familiar operators (&amp;, &gt;&gt;, !=, +, etc):</p>
+<div style="margin-left: 40px;"><code>stick Foo, Bzz
++ 1</code><br>
+<br>
+</div>
+<p>Signals can be passed as arguments:</p>
+<div style="margin-left: 40px;"><code>stick
+Count_threshold_slow_q, Count_q + 7;<br>
+<br>
+</code></div>
+sets the threshold to 7 past the current count.<br>
+<br>
+<p>But assignments (including ++, etc) are not allowed:</p>
+<div style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">Reset
++= 1</span></code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Assigning to signal? in addition (+) at (eval 27) line 2, at EOF</code><br>
+</div>
+<p>One reason is&nbsp;that it's not known
+whether the assignment is meant to be a stick, put, stick immediate, or
+put immediate.&nbsp;</p>
+The run-until idiom is particularly useful in interactive
+simulation. Simulation&nbsp;can be automatically advanced to a
+condition of
+arbitrary complexity. It isn't necessary to inch forward while keeping
+an eye on the&nbsp;waves:
+<div style="margin-left: 40px;">
+<p><code>run until
+Reset == 1 || cycle &gt; 300 &amp;&amp; Fast_count_q
+&gt; 0xdeadbeef</code></p>
+</div>
+If you see&nbsp;something is about to go wrong, you have the
+opportunity to force a correct&nbsp;value and
+continue&nbsp;simulating.<br>
+<p>Run-while, the complementary idiom, is also available:</p>
+<div style="margin-left: 40px;"><code>run while
+Reset != 1 &amp;&amp; (cycle &lt;= 300 || Fast_count_q
+&lt;= 0xdeadbeef)</code><br>
+</div>
+<p>Nothing happens if the termination conditions are true when
+the command is invoked.</p>
+<p>Run-if &nbsp;and run-unless are also possible but don't
+iterate (they advance 1 or 0 cycles).&nbsp;</p>
+<p>Other actions can take place&nbsp;in addition to run. Here
+are two ways to print something each cycle until the run completes:</p>
+<div style="margin-left: 40px;"><code>run, print
+"Time is ", cycle, " and all's well\n" until&nbsp;Reset == 1 ||
+cycle &gt; 300</code><br>
+<code>do {run; print "Time is ", cycle, " and all's well\n"}
+until&nbsp;Reset == 1 || cycle &gt; 300</code></div>
+<p>Note that in the first example, the actions are
+comma-separated. Like
+the earlier examples, it will not run if the terminal conditions are
+already met. The 'do'&nbsp;in the second example is like a
+run-until; it runs before the test is applied so it runs at
+least once.</p>
+C-style syntax works, too:<br>
+<br>
+<div style="margin-left: 40px;"><code>until (Reset
+== 1 || cycle &gt; 300 &amp;&amp; Fast_count_q &gt;
+0xdeadbeef) {run; print "Time is ", cycle, " and all's well\n"}</code><br>
+</div>
+<br>
+This style can be useful with multiple actions; the punctuation between
+actions is less tricky than the comma. The braces here are always
+required, even if they contain just one statement.<br>
+<br>
+When setting multiple actions, be sure one of them is&nbsp;run,
+runx16, or some other command that will cause the<code></code>
+tested conditions to change. If there's nothing to change the
+conditions you'll loop forever.<br>
+<p>myperl gives an example of a&nbsp;driver called repeatedly
+at random cycles.</p><p>
+Semicolons are command separators. They're not needed to terminate an
+interactive command. &nbsp;An interactive command can't span more
+than
+one
+line -- backslash can't be used for continuation.&nbsp;A single
+line can have more than one command,
+delimited by semicolons.</p>
+<h3><span style="font-weight: bold;">Dotdot not</span></h3><p>The Perl <code>'..'</code> syntax (as in <code>for $i (0..22)</code>)
+doesn't work in designersim (you'll get an "as_hex" error). &nbsp;This is a
+known limitation of &nbsp;the Perl bignum library which, in compensation,
+provides many of designersim's nice features.</p><h3>Global and local variables</h3>
+A&nbsp;variable that you simply use with no declaration is global.
+All
+subroutines can see it (and change it), and&nbsp;its value persists
+across subroutine invocations. To make a variable behave like a C
+automatic -- scoped locally and created fresh with every subroutine
+invocation -- use <code>my</code>, with or without an
+assignment:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $x;<br>
+my $y = cycle + 7;</code></div>
+<h2><a name="Commands_starting_new_windows"></a>Commands starting new windows</h2>
+<code>vhdl<br>
+</code>
+<code>myperl<br>
+cmdlog<br>
+</code>
+<br>
+<div style="margin-left: 40px;">Open an editor
+with&nbsp;the vhdl
+source file, user script, or command log. You can then pick up your
+vhdl changes by running&nbsp;<code>respin</code>; your
+myperl changes by&nbsp;running&nbsp;<code>reload</code>,
+or your cmdlog changes by&nbsp;running&nbsp;<code>rerun</code>.
+&nbsp;Uses <code></code>the editor&nbsp;in the
+<code>EDITOR</code> environment variable. To use these
+commands you should have an editor like&nbsp;<code>emacs</code>
+that opens a new window<code>;</code> don't use if your
+editor is<code> vi.</code></div>
+<br>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+<code>
+mantis</code><br>
+<code>
+</code><br>
+<div style="margin-left: 40px;">
+Opens the waveform viewer. Once open, the viewer can stay open between
+simulation sessions.
+</div>
+<h2><a name="Waveform_contents"></a>Waveform contents</h2>
+Running <code>newdir </code>creates a starter set of
+waves -- clocks, reset, and input and output pins.&nbsp;The waves
+are in <code>wave.io</code> in the work directory; this is
+the file the <code>mantis</code> command reads.<br>
+<br>
+There are a number of ways to
+change the set of waves displayed:<br>
+<ol>
+<li>Edit <code>wave.io</code> directly</li>
+<li>Type or paste signal names in the&nbsp;<code>command</code>
+field at the
+bottom of the waves</li>
+<li>Select the name of a signal or signals in the left pane of
+the viewer (they turn white when selected) and <code>ctrl-E</code>.</li>
+</ol>
+To go directly to the latest time, point mouse near the end of the time
+slider and press ctrl-middle mouse button. Alternatively, select or
+type
+<code>END</code> in the <span style="font-family: monospace;">Go to:</span><code></code>
+window at upper left.<br>
+<br>
+Mantis can also be started independently of desi. Run&nbsp;<code>mantis</code>
+in a&nbsp;work directory. A nonzero-length AET file needs to exist;
+it can be an AET from a previous simulation. It's ok for the AET to get
+overwritten&nbsp;(even with a shorter AET) while the waveform
+viewer is up.<br>
+<h2><a name="The_script_file"></a>The&nbsp;script file</h2>
+<p>Sequences of commands -- for initialization, test sequences,
+etc -- can be put into subroutines and run on
+the command line.</p>
+So typing a command like <br>
+<div style="margin-left: 40px;"><code><br>
+clear_dcr_outputs</code> <br>
+</div>
+<br>
+will execute
+<p><code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Cs_bic_stopped, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Enable_slow_q,
+0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Inc_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_slow_count_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_clock_stop_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Count_threshold_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Enable_bic_cs_stop, 0;</code><br>
+<code></code></p>
+<p>if you've put&nbsp;a subroutine </p>
+<div style="margin-left: 40px;"><code>sub
+clear_dcr_outputs {</code><code><br>
+&nbsp;&nbsp;&nbsp; put&nbsp;
+Cs_bic_stopped, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Enable_slow_q,
+0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Inc_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_slow_count_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_clock_stop_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Count_threshold_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Enable_bic_cs_stop, 0;</code><br>
+<code>}</code><br>
+<code></code></div>
+<p>in <code>myperl</code>. &nbsp;You can add and
+modify subroutines on the fly and load them into the current session by
+typing <code>reload. </code>This also reinitializes the
+random seed. </p>
+<p>The subroutines are in Perl, with&nbsp;transparent
+extensions to
+handle signal names and big values.</p>
+<code>myperl</code> has&nbsp;three&nbsp;subroutines
+to which you can add
+user code. They&nbsp;get called automatically at specific times in
+the
+simulation:<br>
+<ol>
+<li><code>run_at_startup</code> --&nbsp;You
+would add here initialization
+code that should&nbsp;run only&nbsp;at the beginning of
+simulation.</li>
+<li><code>run_at_reload</code> --&nbsp;You
+would add here code that should
+run when <code>myperl</code> is&nbsp;<code>reload</code>ed
+-- for instance, to reinitialize variables by setting them back to <code>undef</code>.</li>
+<li><code>run_each_cycle</code>
+--&nbsp;Anything
+scheduled to run in the future, once or repeatedly, goes here --
+checkers as well as drivers.&nbsp;See comments in <code>myperl</code>
+for details and
+examples.</li>
+</ol>
+<br>
+Note: If <code>myperl</code> contains errors, the error
+messages may refer to <code>myperl.rw</code><code></code>.
+You can treat the messages as referring to <code>myperl</code>.
+<code>myperl.rw</code> is identical to myperl except
+that&nbsp;parens&nbsp;have been added to signal
+names. Parens are also added (invisibly) when you type&nbsp;on the
+command
+line. (The parens resolve Perl's parsing of
+commands&nbsp;like&nbsp;<code>Count_q &lt; 1</code>,
+where&nbsp;&lt; is used as the "less-than" operator with a
+signal;&nbsp; without parens Perl sees an unfinished
+&lt;&gt;
+operator.) &nbsp;Scripts&nbsp;included in <code>myperl</code>
+using&nbsp;Perl's <code>do</code>
+command&nbsp;won't get&nbsp;preprocessed.<br>
+<h2><a name="Session_logging_and_recovery"></a>Session logging and recovery</h2>
+Two logfiles enable you to review and/or rerun a session:<br>
+<br>
+<code>1) desi.log </code>is a full transcript
+including user input and system messages. &nbsp;Like a log from the
+Unix&nbsp;<code>script&nbsp;</code>command, it may
+contain unprintable cursor-control&nbsp;characters; use<code>
+less -r</code>
+to get a clean view: <br>
+<div style="margin-left: 40px;">
+<p><code>less -r
+desi.log</code></p>
+</div>
+<p>If <code>grep </code>complains about a binary
+file, use the grep option&nbsp;<code>--binary-files=text</code></p>
+<p></p>
+<p><code></code>2) <a name="desi.cmdlog"></a><code>desi.cmdlog</code>&nbsp;contains
+only your commands. If you make a
+mistake, you can use this&nbsp;to&nbsp;return to where
+you were. Edit <code>desi.cmdlog</code> to remove or
+correct the mistake&nbsp;, and then:<br>
+</p>
+<ul>
+<li>If you've lost the session and are back at the shell, run
+desi with the <code>-rerun</code> option:&nbsp;<code>desi
+-rerun</code></li>
+<li>If you're still in the session, run <code>rerun.</code>
+This quits the current session and runs a new one following the
+commands in desi.cmdlog.</li>
+</ul>
+All Fusion parms&nbsp;from the earlier session&nbsp;(eg seed)
+are reused. &nbsp;See <a href="#Starting_over">Starting
+over</a> for commands that replay a session using&nbsp;<code>desi.cmdlog.</code>
+<p>The logfiles are overwritten every time <code>desi</code>
+runs (including when it runs with the <code>-rerun </code>option)</p>
+<h2><a name="Working_directories"></a>Working
+directories</h2>
+<p><code>newdir</code> creates directories with the
+path</p>
+<p><code>&nbsp;&nbsp;&nbsp; designersim</code>/<span style="font-style: italic;">libraryname/entityname</span></p>
+<p>for example:</p>
+<p style="margin-left: 40px;"><code>designersim/clockstop/cs</code></p>
+<p>These are the designersim <code>working directories</code>,
+where design-specific files and scripts are kept and&nbsp;tools
+like <code>desi </code>are&nbsp;invoked.&nbsp;</p>
+<p>"Working directory" does not refer to the <code>bgq/work</code>
+path.&nbsp;</p>
+<h2><a name="newdir_options"></a><code>newdir</code>
+options</h2>
+If newdir fails (eg because of a VHDL compile error), it's safe to run
+it again. It's also safe to run newdir if the directory already exists;
+it won't clobber existing files.<br>
+Typing&nbsp;<code>newdir -h</code> &nbsp;(or <code>-help</code>,
+or <code>--help</code>, or <code>--h</code>)
+shows available options:<br>
+<br>
+<div style="margin-left: 40px;"><code>&gt; <span style="font-weight: bold;">newdir -h</span></code><br>
+<code></code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Creates
+a working directory for designer sim.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Can do CVS and SVN
+checkouts if needed. Can compile and build model if none exists.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; By default, will not
+overwrite existing files.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Requires environment
+variable BGQHOME.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir (no args): prompts for unit ( = DDX directory = VHDL library, eg
+"clockstop")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+and entity ( = VHDL filename, or VHDL filename minus .vhdl, eg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"cs" or "cs.vhdl")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir &lt;entity&gt; : create workdir for another entity in
+the same library as this workdir<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir &lt;unit&gt; &lt;entity&gt;<br>
+</code><code></code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<code><br>
+</code>
+<div style="margin-left: 40px;"><code>After running
+newdir, you can get to the new work directory by pressing the middle
+mouse button&nbsp;and enter.</code><br>
+</div>
+<br>
+</div>
+For the entity it's OK to use the VHDL filename instead&nbsp;(<code>cs.vhdl</code>
+instead of <code>cs</code>).
+<h2><a name="VHDL_requirements"></a>VHDL&nbsp;requirements</h2>
+<p>
+All&nbsp;designs currently (12/25/07) in
+CVS already meet these requirements.
+VHDL&nbsp;requirements&nbsp;are case-insensitive.</p>
+<ol>
+<li>VHDL file name same as entity (entity <code>x</code>&nbsp;&#8594;<code>
+x.vhdl</code>). Filename lowercase.</li>
+<li>Architecture named <code>golden&nbsp;</code></li>
+<li>DCR ports have the form <br>
+<div style="margin-left: 40px;"><code>dc_&lt;entity&gt;_xxx</code><br>
+<code>&lt;entity&gt;_dc_xxx</code><br>
+</div>
+or<br>
+<div style="margin-left: 40px;"><code>dcr_&lt;entity&gt;_xxx</code><br>
+<code>&lt;entity&gt;_dcr_xxx</code></div>
+</li>
+<li>Each port signal declared on a separate line (no commas).</li>
+<li>Reset input named <code>reset</code>.</li>
+<li>Clock pin &nbsp;names as
+specified&nbsp;by&nbsp;https://yktgsa.ibm.com/projects/b/bgq/web/methodology/clock_pins.html&nbsp;&nbsp;<code></code><code></code><code></code><code></code><code></code>and
+declared&nbsp; as <code>vec_clock_type</code>.
+&nbsp;At present only the processor-clock multiples are supported
+(x1,
+x2, x4, x8, x16). Network clock (clk_n500) will be added (and possibly
+PCIe?).</li>
+</ol>
+<h2><a name="Where_PortalsMesa_output_files_are"></a>Where Portals/Mesa output files are</h2>
+<p>The results of a model build&nbsp;<code></code><code></code>are
+placed in <code>$BGQHOME/bgq/ddx/dadb_2</code>.
+This directory can be deleted to give&nbsp;the equivalent of a
+"make clean." Model files have the extension <code>m2msod</code>
+or <code>m3msmod</code> (for
+three-state).&nbsp;<code>desi</code>&nbsp;uses
+whichever
+was&nbsp;created more recently.</p>
+<p>For the interactive session,&nbsp;the&nbsp;the aet is
+in the older AE1 format to permit cycle-by-cycle updates. (The newer
+AE2 style has buffering.) Commands for&nbsp;AE2 files (the
+AE2-enhanced List Signals option for instance, or, unfortunately, the
+Fusion functions that write directly to AETs) will not work.<span style="font-weight: bold;"></span></p>
+<h2><a name="Error_messages"></a>Error messages</h2>
+<p>By default the tools replace several standard Perl error
+messages with ones that are application-specific or just simpler. <code>$desiparms::informal_messages</code>
+(initially 1) controls this feature:</p>
+<p style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">$desiparms::informal_errmsgs
+= 0</span><br>
+(Cyc:1) foo<br>
+Bareword "foo" not allowed while "strict subs" in use at (eval 24) line
+1, &lt;$LNET&gt; line 1242.</code></p>
+<div style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">$desiparms::informal_errmsgs
+= 1</span></code><br>
+<code>(Cyc:1) foo</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+What's "foo"?</code><br>
+</div>
+<p>Not all messages could be tamed. If you forget a comma between
+arguments:</p>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">stick Reset 27</span></code><br>
+<code>Number found where operator expected at (eval 80) line 1,
+near ") 27"</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Missing operator before 27?)</code><br>
+<code>syntax error at (eval 80) line 1, near ") 27"</code><br>
+</div>
+<p>If you forget arguments altogether:</p>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">get</span><br>
+Use of uninitialized value in concatenation (.) or string at
+/ltmp/bjn/bgq/hwsim/src/fusion/designersim/FacCmds.pm line 44.<br>
+unrecognized signal&nbsp; at
+/ltmp/bjn/bgq/hwsim/src/fusion/designersim/FacCmds.pm line 44.</code><br>
+</div>
+<p>In scripts, misspelling a signal name (or forgetting the
+initial capital letter) leads to:</p>
+<div style="margin-left: 40px;"><code>Bareword "foo"
+not allowed while "strict subs" in use at ./myperl.rw line 77.</code><br>
+</div>
+<p></p>
+<h3>Testcase 1.1 FAILED</h3>
+<p>When writing interactive commands it's easy to accidentally
+write a nonterminating condition:</p>
+<div style="margin-left: 40px;"><code>(Cyc:23) run
+until cycle == 21</code><br>
+</div>
+<p>Unfortunately there's no way to recover; simulation will run
+to the end and give the message</p>
+<div style="margin-left: 40px;"><code>Testcase 1.1
+FAILED</code><br>
+</div>
+<br>
+<p>This message means that&nbsp;simulation time reached a
+user-specified timeout. The timeout is specified via the in.parms file:</p>
+<div style="margin-left: 40px;"><code>//------------------------------------------------------------------------------<br>
+// Sim timeout value (sim will fail if it reaches MaxTime cycles)<br>
+//------------------------------------------------------------------------------<br>
+Fusion.MaxTime = 10000;<br>
+</code></div>
+<p>Feel free to modify it. A short timeout means fewer moments of
+helpless watching when your session runs away, but can also surprise
+you in the middle of a longer session.</p>
+<p>If you die in the middle of useful work, remember that you can
+get desi to <a href="#desi.cmdlog">play back</a>
+your previous session so you resume&nbsp;where you were.</p>
+<h2><a name="Starting_over"></a>Starting over</h2>
+<p>It's not directly possible to start again from time zero; the
+simulator needs to be quit and restarted. There are a couple of
+commands in <code>desi</code> to make this easier.</p>
+<p><code>rerun</code></p>
+<p style="margin-left: 40px;">Restart the simulator,
+rerunning the commands of the current session from&nbsp;<code>desi.cmdlog</code>.
+You might do this while debugging a script in myperl.&nbsp; Parms
+of
+the current session are&nbsp;preserved. It's possible to edit
+&nbsp;<code>desi.cmdlog </code>first to remove
+commands you don't want to run again.<code></code> </p>
+<p><code>restart</code></p>
+<p style="margin-left: 40px;"><code></code>Restart
+the simulator with a new session, and keep the last&nbsp;session's
+parms, but don't replay the last session's commands.</p>
+<p><code>respin</code></p>
+<p style="margin-left: 40px;">Rebuild the VHDL and rerun
+the simulation<code></code><code>. </code>You'd
+use this if you're debugging the VHDL. If
+there's an error rebuilding, respin doesn't restart the sim but
+shows the error log instead.&nbsp; Parms&nbsp;and&nbsp;Mesa
+model type&nbsp;(m3msmod or m2msmod) are preserved. Like&nbsp;<code>rerun,&nbsp;</code>you
+can edit&nbsp;<code>desi.cmdlog&nbsp;</code>first.</p>
+<p><code></code>For these commands&nbsp;<code></code><code></code>Fusion
+parms are read from the most recent <code>out.1.*.parms</code>
+file, created during each Mesa run. If you delete these files for
+housekeeping, leave the most recent one. If you delete them all,
+&nbsp;<code>desi </code>won't be able to recover the
+Fusion parms and will fail at startup.</p>
+<h2><a name="xg"></a>Quasi-drag-and-drop
+signal names</h2>
+<p>The desi command <code>xg</code> (for "X grab")
+translates a net name on the X windows clipboard to a signal name.
+Select a net name (from the waves, from an editor or web browser, etc.)
+and type 'xg&lt;return&gt;' in the simulator. The middle mouse
+button's paste function will then deposit the translation.</p>
+Select<br>
+<div style="margin-left: 40px;"><code>CLEAR_F.LL.BIT#0.LP.ZZ.VITALBEHAVIOR.L1CLK</code><br>
+</div>
+Run xg:<br>
+<div style="margin-left: 40px;"><code>(Cyc:0) <span style="font-weight: bold;">xg</span></code><br>
+</div>
+Can then paste the signal name into a command:<br>
+<div style="margin-left: 40px;"><code>(Cyc:0) <span style="font-weight: bold;">g
+Clear_f_ll_bit_0_lp_zz_vitalbehavior_l1clk</span></code><br>
+</div>
+<h2><a name="Using_SVN"></a>Using SVN</h2>
+<p>The initial work directory comes to you ready
+for&nbsp;check-in into
+Subversion. The CVS commands
+add, commit, and update&nbsp;work in Subversion;&nbsp;so does
+diff:</p>
+<div style="margin-left: 40px;"><code>svn add</code><br>
+<code>svn commit</code><br>
+<code>svn update</code><br>
+<code>svn diff</code></div>
+<p>You're encouraged to use Subversion to save versions of
+your work&nbsp;and make it accessible to others. &nbsp;</p>
+<p>On the other hand, it's best to commit only the files that
+you've&nbsp;have modified (<code>svn commit</code> by
+default will commit everything). This makes it easier to do updates of
+the designersim code.</p>
+<h2><a name="BGQHOME"></a>BGQHOME</h2>
+<p>Set to the path up to but not including your<span style="font-family: monospace;"> </span><code>bgq
+</code>directory.
+The newdir
+tool will prompt if <code>BGQHOME</code> is not set. If
+there's no <code>bgq</code> directory,
+newdir will create one at <code>$BGQHOME</code>.</p>
+<p>Most of the BGQ simulation tools -- not just designer sim, but
+unit sim and full-chip sim as well -- depend on <code>BGQHOME</code>
+being
+set; you should have it in your
+profile.</p>
+<h2><a name="designersim_path"></a>$BGQHOME/bgq/hwsim/src/fusion/designersim</h2>
+<p>Nearly all the designersim programs&nbsp;are in this
+directory.&nbsp;&nbsp;If you sometimes need to change
+<code>BGQHOME</code>, you can still add designersim to <code>PATH</code>;
+see this <a href="instructions.html#Re-pathing_designersim">note</a>.&nbsp;If
+you have religious objections to changing <code>PATH,</code>
+the&nbsp;tools will&nbsp;work but&nbsp;you'll need to
+specify the
+path on the command line or write aliases.</p>
+<h2><a name="Shell_commands"></a>Shell commands</h2>
+All are&nbsp;run from a working directory. Most of
+these would normally be run either automatically by the tools or from
+the desi command line. <code></code><br>
+<code><br>
+mantis<br>
+</code>
+<div style="margin-left: 40px;">Open the waveform viewer.</div>
+<code>makevhdl<br>
+</code>
+<div style="margin-left: 40px;"><code></code>Compile and&nbsp;build model.&nbsp;They pick up the names they need (library and
+entity) from the current working directory.<br>
+<code></code></div>
+<code>makevhdl viewlog<br>
+</code>
+<div style="margin-left: 40px;">View logfiles from the VHDL build.
+Opens the most recently created logfile and highlights&nbsp;the first
+occurrence of the word 'error'.</div>
+<code><br>
+make_wave_io<br>
+</code>
+<div style="margin-left: 40px;">Create a starter set of
+waves in <code>waves.io</code>. If<code>&nbsp;waves.io</code>
+already exists, it won't clobber it. &nbsp;<code></code>It
+can&nbsp;be run
+only after&nbsp;model build.</div>
+<code></code><br>
+<code>respin</code><br>
+<div style="margin-left: 40px;">Like
+the desi command, recompiles VHDL and makes a new model, then reruns
+desi.cmdlog. Displays the relevant logfile if Portals or Mesabld fails.
+</div>
+<h2><a name="Native_Fusion_interface"></a>Native&nbsp;Fusion&nbsp;interface</h2>
+The designersim user interface significantly extends the interface
+described in the Perl Interface chapter of the Fusion user guide.
+&nbsp;The echoing of commands like put and stick shows the
+underlying Perl Fusion command.<br>
+<br>
+Some of the&nbsp;commands described in that chapter
+might be usable&nbsp;in designer sim (caution:&nbsp; <em>untested</em>):<br>
+<br>
+<table style="text-align: left; width: 273px; height: 290px; margin-left: 40px;" border="1" cellpadding="2" cellspacing="0">
+<tbody>
+<tr>
+<th>Function</th>
+<th>Interactive version</th>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::aet</code></td>
+<td align="undefined" valign="undefined"><code>aet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::bspReset</code></td>
+<td align="undefined" valign="undefined"><code>bspReset</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::figtreeGet</code></td>
+<td align="undefined" valign="undefined"><code>figtreeGet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::figtreeSe t</code></td>
+<td align="undefined" valign="undefined"><code>figtreeSet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::info</code></td>
+<td align="undefined" valign="undefined"><code>info</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::warning</code></td>
+<td align="undefined" valign="undefined"><code>warning</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::error</code></td>
+<td align="undefined" valign="undefined"><code>error</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::pass</code></td>
+<td align="undefined" valign="undefined"><code>pass</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::debug</code></td>
+<td align="undefined" valign="undefined"><code>debug</code></td>
+</tr>
+</tbody>
+</table>
+<br>
+Don't use the other commmands&nbsp;in the chapter. They will not
+work, or will work differently, or will interfere; and in general they
+provide less functionality.<br>
+<br>
+Some ways&nbsp;the designersim user interface
+differs&nbsp;from the native Fusion interface:<br>
+<ol>
+<li>desi works with integers of any size. In the native
+interface, users must choose between string and integer
+representations of signal values; neither is perfectly suited for
+simulation. Strings support
+signals of any size but don't support any of the familiar bit,
+arithmetic, or comparison operations (&amp;,+,&lt;=);
+even a&nbsp;string test&nbsp;for equality can be deceived by
+leading zeros. Also, users must remember to add quotes
+around&nbsp;values. Integers, while they&nbsp;do
+support bit ops, can't be used for&nbsp;signals wider than 32 bits.
+The designersim tools make
+use of Perl's big-integer library and constant overloading to allow
+expressions with
+unquoted integer literals of any size. </li>
+<li>Signal names can be used directly in&nbsp;expressions
+like <code>Slow_count_q
++ 1</code> or <code>Slow_count_q == 0x7fffffff</code>.
+It is not necessary to first call a function to retrieve
+the&nbsp;signal's value. Perl
+operator overloading makes this transparency possible.<br>
+</li>
+<li>By controlling the clock via the run() subroutine,
+designersim also
+provides&nbsp;the run_at_startup, run_at_reload, and run_each_cycle
+interfaces.</li>
+<li>Signals in scripts or on the command line never need to be
+declared.&nbsp;When a signal name is used for the first time in a
+script or the command line, the tools find the net and declare it
+automatically.</li>
+<li>The designer-sim tools attempt to provide more user
+feedback. In the native interface, command-line errors&nbsp;are not
+always reported. desi reports not only errors, but also warns if, say,
+it's truncating a value to fit a signal width.</li>
+</ol>
+<h2><a name="Long_goodbyes"></a>Long goodbyes</h2>
+There's a bug in interactive Perl Fusion, unrelated to <code>desi</code>,
+that causes it to dump core when the user quits. The bug has been
+reported and we await a fix. It wouldn't be design automation if it
+didn't have at least one irritating how-could-they-have-missed-this bug.<code><br>
+<br>
+desi</code>
+attempts to make&nbsp;the problem&nbsp;invisible.
+Generation of the coredump file is suppressed and the end-of-the-world
+message is not displayed. <br>
+<br>
+But if you have an error in your script, so that <code>desi</code>
+doesn't load, you'll see the&nbsp;message when you quit.
+&nbsp;Sometimes&nbsp;Fusion hangs on its way out;
+then&nbsp;you'll need
+to kill <code>desi</code> from another window. The command
+<code>desikill</code>, typed at&nbsp;a Unix command
+line, will kill all <code>desi</code> sessions you have
+open..<br>
+<br>
+<h2><a name="Noninteractive_designer_sim"></a>Noninteractive designer sim</h2>
+Some designs can't be run interactively for long before dumping core.
+This is a problem in interactive Perl Fusion, not <code>desi </code>itself,
+and is known to the Fusion team. Fortunately, noninteractive Perl
+Fusion is not affected, and&nbsp;a noninteractive designersim
+version, <code>desibatch</code>, is provided&nbsp;for
+these cases. &nbsp;For noninteractive sim, whatever you want to run
+must be invoked via <code>run_at_startup</code>. The sim
+will terminate&nbsp; after your last <code>run</code>
+command. When using <code>desibatch</code> the <code>print</code>
+and <code>echo</code> commands continue to write to the
+screen; you may prefer to write to the <code>out.SUM</code>
+file, using commands like <code>fusion::info()</code>.
+(Unfortunately <code>fusion::error() </code>crashes the
+sim,&nbsp;so you may want to print a fail message&nbsp;to the
+console yourself<code></code>.) If you do send
+all&nbsp;output to the screen, you may want to turn off Fusion's <code>Cyc
+0000098: Evaluate:&nbsp;&nbsp; 000.269 sec elapsed, 936 KBytes
+used </code>messages by setting the parm <code>Fusion.TimerEnabled=false
+</code>either when invoking desibatch or in the <code>in.parms</code>
+file.
+<h2><a name="assert_off"></a>Suspending Mesa <code>ASSERT</code>
+messages</h2>
+Sometimes <code>ASSERT</code> messages appear at startup,
+particularly
+in multilevel ('X') simulation. Asserts&nbsp;can be suspended at
+startup and reenabled at a user-specified time via the parm <code>ResetDriver.restore_asserts_cycle</code>,
+which can be specified on the command line:<br>
+<br>
+<div style="margin-left: 40px;"><code>desi
+ResetDriver.restore_asserts_cycle=XXX;<br>
+<br>
+</code></div>
+or in the <code>in.parms</code> file. By default, this
+parm is 0 and asserts are never disabled.
+<h2><a name="Perl_and_FLite"></a>Perl and FLite</h2>
+News flash: FLite does not work on the 64-bit machines. It's a simple
+fix for the Fusion developers, but it's not clear when they will add
+it.
+<h3>desi as debugger</h3>
+<p>desi can be completely driven and checked by Perl scripts.
+Alternatively, the interactive environment can be run as a kind
+of&nbsp;debugger. You write stimulus and checkers in <a href="http://wwwimd.austin.ibm.com/tools/fusion/doc/flite_user_guide.pdf">FLite</a>&nbsp;or
+standard Fusion
+which can&nbsp;run unattended, but rather than running these with <code>runmesa</code>,
+you start <code>desi</code>, which enables you to examine
+and force signals, to "single-step" via <code>runx<span style="font-style: italic;">N</span></code>,&nbsp;and
+to set "breakpoints" via <code>run until</code>.</p>
+<p>Perl is analogous to the ncsim command line, and FLite is
+analogous
+to a VHDL testbench. &nbsp;Compared to a VHDL testbench, FLite
+gives
+more control and visibility, because it is not restricted to ports, and
+C++ is arguably a more productive language than VHDL.</p>
+<h3>Adding FLite modules</h3>
+Perl and FLite already coexist in desi. Any entity with a reset pin is
+driven by&nbsp; <code>ResetDriver.flt</code>&nbsp;
+in the designersim directory. You can add your own module&nbsp;by
+including it in <code>FLite.ModuleFilenameList </code>in
+the <code>in.parms</code> file in the work directory:<br>
+<br>
+<div style="margin-left: 40px;"><code>FLite.ModuleFilenameList
+= ResetDriver.flt, dcr.flt, <span style="font-weight: bold;">SomethingYouWrote.flt</span>;<br>
+<br>
+</code></div>
+The module can go&nbsp;in the work directory or in the "unit-level"
+directory above the working directory. Don't add FLite library files
+(as opposed to modules). Library files will be found automatically if
+they're in either directory.
+<h3>Multiple stimuli in Perl</h3>
+<p>It's easy to write a single&nbsp;stimulus&nbsp;in the
+desi environment. It advances time whenever it needs to via <code>runx<span style="font-style: italic;">N</span></code>:</p>
+<div style="margin-left: 40px;"><code>runx16, 12;<br>
+put Count_q, 0x2727;</code><br>
+<code>runx16, 22;</code><br>
+<code>put Count_q, 0;<br>
+<br>
+</code></div>
+You&nbsp;can't boss time like this if you want to concurrently
+run&nbsp;independent stimuli. In that case, the stimuli run under <code>run_each_cycle,</code>
+each waiting for the right cycle to come around:&nbsp;<code><br>
+</code>
+<div style="margin-left: 40px;"><code><br>
+put Count_q, 0x2727 if&nbsp;x16 == 12;<br>
+put Count_q, 0 if&nbsp;x16 == 12+22;<br>
+<br>
+</code></div>
+"12+22" is clearer than&nbsp;34. The
+commands&nbsp;can&nbsp;go directly in<code> run_each_cycle</code>
+or into a subroutine called from <code>run_each_cycle</code>.
+To move time forward you would have a&nbsp; <code>run&nbsp;</code><span style="font-style: italic;"></span><code></code>or&nbsp;<code>run
+until</code> in <code>run_at_startup</code>.&nbsp;<br>
+<code><br>
+</code>The "12+22+..." style can require&nbsp;changes down
+the line if
+one of the times changes, and it doesn't support random times. The
+sequence can be expressed instead as a series of offsets.<br>
+<br>
+<div style="margin-left: 40px;"><code>do {$t = x16;
+put Count_q, 0x2727} if x16 == 12;</code><br>
+<code>do {$t = x16; put Count_q, 0} if x16 == $t + 22;</code><code></code></div>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+In this second case, the stimulus has state that will
+remain&nbsp;intact between invocations. To guarantee that <code>$t</code>
+is not clobbered by another <code>$t</code>, uniquify it,
+either manually<br>
+<br>
+<div style="margin-left: 40px;"><code>do
+{$FancifulName_t =&nbsp;cycle; put Count_q, 0x2727} if x16 == 12;</code><br>
+<code>do {$FancifulName_t = cycle; put Count_q, 0} if x16 == $t +
+22;</code><code></code></div>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+or by using Perl's <code>package</code> command:<br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;<code>&nbsp;&nbsp;
+package FancifulName;&nbsp;<br>
+</code>
+<div style="margin-left: 40px;"><code>&nbsp;{<br>
+&nbsp;&nbsp;&nbsp; &nbsp;do {$t =&nbsp;cycle; put
+Count_q, 0x2727} if cycle == 12;<br>
+</code><code>&nbsp;&nbsp;&nbsp; &nbsp;do
+{$t=cycle; put Count_q, 0} if cycle == $t + 22;</code><code></code></div>
+<div style="margin-left: 40px;"><code>&nbsp;}<br>
+</code></div>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+Don't use&nbsp;<code></code><code>my</code>
+to isolate <code>$t</code>; the variable won't stick
+around across invocations.<br>
+<h3>Multiple stimuli in FLite</h3>
+For serious simulation with concurrent stimulus, FLite is a better
+tool.&nbsp;It's fine if multiple threads contain clock() commands:<br>
+<div style="margin-left: 40px;"><code><br>
+clock(12);<br>
+put Count_q, 0x2727;</code><br>
+<code>clock(22);</code><br>
+<code>put Count_q, 0;<br>
+</code></div>
+<p>because clock() doesn't drive the clock; it's a
+wait-for-clock. FLite threads act like VHDL processes.</p>
+It might be possible to add a&nbsp;semantic like this to the desi
+environment, but there's none&nbsp;currently.<br>
+<br>
+<h3>desi and&nbsp;Bugspray, PSL</h3>
+Bugspray seems a natural complement&nbsp;do
+some or all simulation checking.&nbsp;Bugspray can go
+into&nbsp;Fusion
+or VHDL.&nbsp;&nbsp;PSL is also a
+possibility;&nbsp; here again there's a choice of&nbsp;VHDL
+(VHDL 2000 includes PSL) or&nbsp;Fusion (Fusion now can include PSL
+directly). I'd like to work with anyone who wants to include these.<br>
+<br>
+<h2><a name="Desi_and_Fusion"></a>Desi and Fusion</h2>
+Designersim can be used as a fast&nbsp;start for RTX development.
+You
+can start writing code without having to set up an environment. Later
+the RTX can be moved to a&nbsp;permanent location and the missing
+pieces (eg, clock vector and reset) added.<br>
+<ol>
+<li>Copy <code>Makefile.sample</code> from <code>designersim</code>
+to the working directory (naming it just <code>Makefile</code>).
+Customize <code>TARGET</code> to your .so name.</li>
+<li>Add your .so to <code>in.mesa.dll</code>
+(below <code>libdesigner</code>).</li>
+<li>You can create SimRiseClock instances as
+you normally would, or piggyback on&nbsp;bgqClockVec, which fires
+on the same cycles, by declaring an alias:</li>
+</ol>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><code>#include
+"obj/ObjectAliasSpec.h"</code><br>
+<code>static ObjectAliasSpec clkx2a("", "bgqClockVec[_x2,_x16]",
+"%.SimRiseClock[_x2,_x16]");</code><br>
+<code></code></div>
+<br>
+</div>
+Perl
+Fusion&nbsp;allows coordination between Perl code and RTX, using an
+object that can exchange strings with&nbsp;the Perl side. I've
+created
+the object (the documentation is incorrect) and gotten the
+communication to work, but I'm not currently exploiting it. One
+application might be to augment the Perl UI with features that are
+normally available only from RTX.&nbsp;Another might be to control
+RTX
+from Perl, where Perl writes a string telling&nbsp;the RTX when to
+start, the RTX runs concurrently, and then the RTX writes a string
+telling Perl that it's finished.<br>
+<h2><a name="Re-pathing_designersim"></a>Re-pathing
+designersim</h2>
+<p>If you sometimes change <code>BGQHOME,</code>&nbsp;the&nbsp;designersim
+in <code>$PATH</code> needs to track the change<code></code>.
+One way to do this is to change <code>BGQHOME</code> using
+a bash function&nbsp;/ tcsh alias (I named
+mine&nbsp;<code>reworld</code> )</p>
+<p style="margin-left: 40px;"><code>reworld</code>&nbsp;<span style="font-style: italic;">newdir</span></p>
+<p><code></code>which changes not only <code>BGQHOME</code>
+but&nbsp
+...
+
+[Message clipped]  View entire message
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Designer sim instructions</title></head>
+<body>
+<h1 style="font-family: Georgia;"><a name="BGQ_designersim"></a>BG/Q designersim</h1>
+The BG/Q designersim tools streamline the&nbsp;testing of new VHDL.
+You
+can perform verification on your component with no Fusion knowledge,
+exploring the design&nbsp;and getting a cleaner component before
+you
+integrate.
+<ul>
+<li>Compile VHDL and go:</li>
+<ul>
+<li>Clocks and reset drivers created and hooked up
+automatically</li>
+</ul>
+<ul>
+<li>Lower-level hierarchy&nbsp;incorporated automatically</li>
+</ul>
+<li>Creates a starter set of waveform-viewer signals
+--&nbsp;inputs,
+outputs, clocks, reset, DCR</li>
+<li>Works at subunit or top levels</li>
+<li>Interactive simulation.&nbsp;Sample capabilities:</li>
+<ul>
+<li>Advance simulation to a point of interest: </li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>run until
+cycle == 250 || Slow_count_q &gt;= 0xFEABC;<br>
+</code></div>
+<ul>
+<ul>
+<li>Monitor conditions and automate checking:</li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>warn "Timeout
+never fired" if cycle == 1000 and Timeout == 0<br>
+</code></div>
+<ul>
+<ul>
+<li>Drive a random data value&nbsp;if a condition is met:</li>
+</ul>
+</ul>
+<div style="margin-left: 120px;"><code>rndput Wrdata
+if Ack == 1</code></div>
+<ul>
+<li>Programmable&nbsp;in Perl, via script or command line
+&nbsp;</li>
+<li>Understands BG/Q clocking (x1,...,x16)</li>
+<li>Same underlying simulator (Mesa) as larger BG/Q simulations</li>
+<li>Three-state simulation available (all latches initially 'X')</li>
+<li>DCR&nbsp; utility, also hooked up
+automatically</li>
+</ul>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+<h2>Quickstart:</h2>
+<h3>Simulation setup:</h3>
+<ol>
+<li>If you've never run the tools before, see <a href="#If_youve_never_run_the_tools_before:">here</a>.</li>
+<li>Getting new&nbsp;VHDL into designer
+sim&nbsp;consists of a single step, running <code>newdir. </code>It
+will <a href="#newdir_options">prompt</a> for unit
+name (VHDL library) and entity.<code></code></li>
+<li>The tool sets up a working
+directory under <code>designersim</code>
+in the bgq tree. &nbsp;It will offer to compile the VHDL and build
+a model.</li>
+<li>When newdir completes, press middle mouse button, then <code>enter.</code>
+This takes you to&nbsp;the <a href="#Working_directories">working
+directory</a> for simulation.<code></code></li>
+</ol>
+<h3>Starting a simulation:</h3>
+<ol>
+<li><span style="font-weight: bold;">Starting
+simulator:</span> From working directory, run&nbsp;<code>desi</code>
+for interactive sim.</li>
+<li><span style="font-weight: bold;">Starting
+waves:&nbsp;</span> Type <code></code><code>mantis</code>&nbsp;
+from the desi command line to&nbsp;start the waveform viewer. Run
+at least one cycle first; the waves won't&nbsp;come up
+without&nbsp;a non-zero-length
+AET file. In Mantis, press <code>Alt-6</code>
+(or select <code>Windows-&gt;AET control</code>)
+&nbsp;to bring up the small <code>AetControl </code>window.
+(If you are running Hummingbird Exceed, use the&nbsp;<code>Alt
+</code>key at the
+right of the spacebar).&nbsp;</li>
+</ol>
+<h3>Running&nbsp;simulation:</h3>
+<ol>
+<li><code style="font-weight: bold;">run</code><span style="font-weight: bold;"> </span>to advance time.
+&nbsp;Signal setting/viewing commands.&nbsp;<code>myperl</code>
+user scripts. </li>
+<li><span style="font-weight: bold;">Updating waves</span>:&nbsp;Press
+<code>Reload</code>
+in the <code>AetControl</code> window, or &nbsp;hold <code>Alt</code>
+and press <code>6R</code>.</li>
+<li><span style="font-weight: bold;">Writing and
+running scripted routines:&nbsp;<span style="text-decoration: underline;"><span style="font-weight: bold;"><span style="text-decoration: underline;"><span style="text-decoration: underline;"></span></span></span></span><span style="font-weight: bold;"></span></span>add
+them to the file <code>myperl</code>; run <code>reload</code>
+to pick up the changes</li>
+</ol>
+<h3>Iterating on a design:</h3>
+<ol>
+<li><span style="font-weight: bold;">Compile</span>:<code>&nbsp;respin</code>
+from the desi command line rebuilds the VHDL and returns simulation to
+the current&nbsp;point, or displays the&nbsp;logfile if
+compilation
+fails. <code></code></li>
+<li>The&nbsp;waveform window&nbsp;can stay up between
+simulations. It's OK for the AET to be overwritten, even by a shorter
+AET. The&nbsp;<code>Reload</code> button will show the
+new waveform.<span style="font-family: monospace;"><br>
+</span></li>
+</ol>
+<h3><a name="If_youve_never_run_the_tools_before:"></a>If
+you've never run the tools before:</h3>
+<ol>
+<li>The tools run only under Linux. They've been tested in the
+bg&nbsp;machines in the<a href="../../cluster/index.html">
+Linux cluster</a>. They do not work on
+the pcserv machines that are still running FC3.</li>
+<li>If you haven't already, set the environment variable <a href="#BGQHOME"><code>BGQHOME</code></a>
+in
+your login profile (.bashrc, .cshrc, etc). This is the path up to but
+not including your&nbsp;<code>bgq</code> directory. If
+you don't yet have a <code>bgq</code> directory, the the
+tool will create one at <code>$BGQHOME</code>.</li>
+<li>Add<code> $BGQHOME/bgq/hwsim/src/fusion/designersim</code>
+to your <a href="#designersim_path">path</a>.</li>
+<li>For the <code>newdir</code> step,&nbsp;run
+<code>/gsa/yktgsa/projects/b/bgq/web/verification/designer_sim/newdir</code>.
+If you don't have a hwsim directory or ddx directory, <code>newdir</code>
+will offer to install them. <code>newdir</code> will also
+install itself, so you no longer need to use the path.</li>
+<li>To stay abreast of&nbsp;designersim updates, subscribe
+to the <code>designersim_envt</code> category in <a href="../../tools/howTo_BUGS.html">Issues</a>.</li>
+</ol>
+<h2><a name="Contents"></a>Contents</h2>
+<ul><li><a href="#Whats_covered_here">What's covered
+here</a></li>
+<li><a href="#Signal_names">Signal names</a></li>
+<li><a href="#Signal_values">Signal values</a></li>
+<li><a href="#Signal_assignment_gotcha_--_youve_been">Signal
+assignment gotcha -- you've been warned...</a></li>
+<li><a href="#Commands_on_signals">Commands
+on signals</a></li>
+<li><a href="#Put_and_stick:_cycle_sim_vs_event_sim">Put
+and stick: cycle sim vs event sim</a>
+</li>
+<li><a href="#Time">Time</a></li>
+<li><a href="#Language">Language</a></li>
+<li><a href="#Commands_starting_new_windows">Commands
+starting new windows</a></li>
+<li><a href="#Waveform_contents">Waveform
+contents</a></li>
+<li><a href="#The_script_file">The&nbsp;script
+file</a></li>
+<li><a href="#Session_logging_and_recovery">Session
+logging and recovery</a></li>
+<li><a href="#Working_directories">Working
+directories</a></li>
+<li><a href="instructions.html#newdir_options"><code>newdir</code>
+options</a></li>
+<li><a href="#VHDL_requirements">VHDL&nbsp;requirements</a></li>
+<li><a href="#Where_PortalsMesa_output_files_are">Where
+Portals
+/Mesa output files are</a></li>
+<li><a href="#Error_messages">Error
+messages</a></li>
+<li><a href="instructions.html#Starting_over">Starting over</a></li>
+<li><a href="instructions.html#xg">Quasi-drag-and-drop
+signal names</a></li>
+<li><a href="#Using_SVN">Using
+SVN</a></li>
+<li><a href="#BGQHOME">BGQHOME</a></li><li><a href="#designersim_path">$BGQHOME/bgq/hwsim/src/fusion/designersim</a></li>
+<li><a href="#Shell_commands">Shell
+commands</a></li>
+<li><a href="#Native_Fusion_interface">Native&nbsp;Fusion&nbsp;interface</a></li>
+<li><a href="#Long_goodbyes">Long
+goodbyes</a></li>
+<li><a href="#Noninteractive_designer_sim">Noninteractive
+designer sim</a></li>
+<li><a href="instructions.html#assert_off">Suspending
+Mesa <code>ASSERT</code>
+messages</a></li>
+<li><a href="#Perl_and_FLite">Perl
+and FLite</a></li>
+<li><a href="#Desi_and_Fusion">Desi
+and Fusion</a></li>
+<li><a href="instructions.html#Re-pathing_designersim">Re-pathing
+designersim</a></li>
+</ul>
+<br>
+<h2><a name="Whats_covered_here"></a>What's
+covered here</h2>
+This document describes an&nbsp;interactive interface to the
+Mesa&nbsp;simulator, driven by&nbsp;interactive commands and
+Perl
+scripts, for early debug and small-scale&nbsp;semiautomated
+verification. <br>
+<br>
+The environment doesn't synthesize stimulus or checkers. You write
+these. But it does away with&nbsp;routine tasks like hooking up
+clocks
+and declaring signal names, and lets you drive and observe your design
+with high-level commands. The hope is that simple tests are simple to
+write,&nbsp;that
+getting a design into simulation is effortless, and that
+design-compile-debug iteration is fast and straightforward.<br>
+<br>
+Part of the motivation&nbsp;for this environment is that the same
+environment, and same simulator, can also be hooked up with more
+complex and production-oriented
+tools -- FLite for stimulus and checking, and Fusion&nbsp;for
+interfacing with other tools (Bugspray, PSL). The
+environment&nbsp;in fact uses both.&nbsp;
+<h2><a name="Signal_names"></a>Signal names</h2>
+<p>
+Signal names used in&nbsp;<code>desi</code>
+are&nbsp;net
+names with the first letter capitalized:</p>
+<div style="margin-left: 40px;"><code>reset
+&nbsp; &nbsp; &nbsp; &nbsp;</code> &#8594; <code>Reset</code><code><br>
+slow_clock_q</code> &nbsp; &#8594; <code>Slow_clock_q</code><br>
+</div>
+<br>
+To select a bit, use parens:<br>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(32)</code></p>
+<code></code></div>
+To select a bit range, use&nbsp;comma or dot-dot (not colon); the
+notations are equivalent:<br>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(20,32)</code></p>
+</div>
+<div style="margin-left: 40px;">
+<p><code>Slow_clock_q(20..32)</code></p>
+<code></code></div>
+Dots in the net name (for hierarchy) are changed to underscores, as are<code></code><code></code>
+hashmarks&nbsp;(on signals created by Portals from VHDL generate
+statments)
+and percent marks (from who knows where):<br>
+<div style="margin-left: 40px;">
+<p><code>ctrl.reset&nbsp;</code>&#8594;<code>
+</code><code>Ctrl_reset</code><code></code></p>
+<p><code>CLEAR_F.LL.BIT#0.LP.ZZ.VITALBEHAVIOR.L1CLK</code>
+&#8594;&nbsp; <code>Clear_f_ll_bit_0_lp_zz_vitalbehavior_l1clk&nbsp;&nbsp;&nbsp;</code><br>
+</p>
+<code></code></div>
+<p>It's possible that the underscore mapping will give the
+same&nbsp;name to more than one net; the tool reports this:</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<code>(W) Multiple nets
+map to signal name Dut_lu_srt_en: DUT.LU_SRT_EN and DUT.LU.SRT_EN
+at&nbsp;/ltmp/bjn/bgq/hwsim/src/fusion/designersim/ModelLoad.pm
+line
+198, &lt;$LNET&gt; line 456.</code></p>
+<p>This isn't automatically a problem. It
+matters
+only if&nbsp;these&nbsp;are signals you&nbsp;plan to
+manipulate&nbsp;through desi (there's no effect on Fusion or Mesa).
+There's a mechanism&nbsp;to sidestep the problem;&nbsp;see me.</p>
+<p>If a default name is cumbersome, it's easy to alias a shorter
+one:</p>
+<div style="margin-left: 40px;">
+<p><code>sub Little_me
+{Bicstop_fast_ll_bit_0_lp_zz_vitalbehavior_l1clk(@_)};</code></p>
+</div>
+<p><code></code><span style="font-family: monospace;"></span>Remember to
+follow the capitalization convention and append&nbsp;<code>(@_)</code>&nbsp;as
+shown; that allows bit ranges in the alias to be transferred to the
+real signal.&nbsp;</p>
+You can drop a vhdl netname&nbsp;from the X clipboard to the
+command line using <a href="#xg">xg</a>, which
+translates it to a desi signal name.<br>
+<br>
+<h2><a name="Signal_values"></a>Signal values</h2>
+<code>0x</code> for hex, <code>0b</code> for
+binary, otherwise, decimal. There's no convenient way to denote octal.
+Leading 0 is <em>not</em> treated as octal. No quotes.<br>
+<div style="margin-left: 40px;"><code><br>
+(Cyc:0) <span style="font-weight: bold;">st Reset, 10</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+trimming 0xa to 0x0 to fit bit range 0..0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::stickhex(0x0,RESET)<br>
+</code></div>
+<code><br>
+</code>You&nbsp;can insert underscores for readability:<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">$x = 123_456_789_876_543_210</span></code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+"$x\n"</span></code><br>
+<code>123456789876543210</code><br>
+</div>
+<br>
+By default, values print as decimal. Use&nbsp;<code>-&gt;as_hex()</code>
+to see hex; don't use <code>printf "%x".</code><br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">$x =
+0xFFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF_FFFF</span></code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+"$x\n"</span></code><br>
+<code>340282366920938463463374607431768211455</code><br>
+<code>(Cyc:97) <span style="font-weight: bold;">print
+$x-&gt;as_hex, "\n"</span></code><br>
+<code>0xffffffffffffffffffffffffffffffff</code><br>
+</div>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">printf "%x\n", $x</span></code><br>
+<code>ffffffff</code><br>
+<code></code></div>
+<br>
+These operators can be used directly with signal operands:<br>
+<br>
+<code></code>
+<div style="margin-left: 40px;"><code>&amp;&nbsp;</code><br>
+<code>|&nbsp;</code><br>
+<code></code><code>^ </code><br>
+<code></code><code>&lt;&lt;</code><br>
+<code>&gt;&gt;</code><br>
+<code></code><code>+ </code><br>
+<code></code><code>&gt;</code><br>
+<code>&lt;</code><br>
+<code>==</code><br>
+<code>!=</code><br>
+<code>&gt;=</code><br>
+<code>&lt;=<br>
+<br>
+</code></div>
+<h3>The "+0" trick</h3>
+Notice that&nbsp;values can be arbitrarily large, permitting you to
+read and write buses with thousands of bits. Perl is
+doing&nbsp;magic
+when it sees digits; it converts the number to an infinite-precision
+type. <br>
+<br>
+Unfortunately, when it <span style="font-style: italic;">doesn't</span>
+see digits, it messes up. You would expect this to work:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $data =
+int&nbsp;rand(8192);</code><br>
+<code>stick&nbsp;L1p_upc_mmio_in(17,80), $data</code><code></code><code></code></div>
+<code>
+</code><code></code><br>
+but it returns <br>
+<div style="margin-left: 40px;"><code>Can't call
+method "as_hex"
+without a package or object reference at
+/ltmp/bjn/bgq/hwsim_unitsim/src/fusion/designersim/FacCmds.pm line 176.<br>
+<br>
+</code></div>
+The rand&nbsp;output is being treated as a plain integer rather
+than&nbsp;being converted to an infinite-precision type, causing
+other
+parts of the code which expect the type to fail. The fix is easy: add 0
+to the result of the function:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $data =
+int&nbsp;rand(8192) <span style="font-weight: bold;">+
+0</span>;</code><br>
+<code>stick&nbsp;L1p_upc_mmio_in(17,80), $data</code><code></code><code></code></div>
+<code>
+</code><code></code><br>
+The&nbsp;digit triggers an&nbsp;infinite-precision conversion,
+and the code works as expected.<br>
+<h3>Subtraction, multiplication, division</h3>
+Subtraction, division, and multiplication of signals can be buggy due
+to problems in the Perl library. Contact me if you need this in a
+script, or consider shifting at least this part of the coding to FLite.<br>
+<br>
+Of course there are no restrictions on ordinary arithmetic expressions
+without signal operands.<br>
+<h2><a name="Signal_assignment_gotcha_--_youve_been"></a>Signal
+assignment gotcha -- you've been warned...</h2>
+Beware: Although much effort has gone into making signals act like
+numbers,&nbsp;the charade breaks in variable
+assignment.&nbsp;You might very reasonably write this to store a
+signal value:<br>
+<br>
+<div style="margin-left: 40px;"><code>$old_ctrl =
+Ctrl;</code><br>
+</div>
+<p>but it doesn't&nbsp;behave like it looks. It in fact
+acts&nbsp;like
+a pointer assignment. The variable becomes an alias for the signal, so
+when <code>Ctrl</code> changes, <code>$old_ctrl</code>
+changes as well.&nbsp;</p>
+<p>To avoid this, use<code> -&gt;as_number:</code></p>
+<p style="margin-left: 40px;"><code>$old_ctrl =
+Ctrl-&gt;as_number;</code></p>
+<span style="font-weight: bold;">
+</span><span style="font-weight: bold;"></span>
+<h4>Assigning to a signal</h4>
+You also can't assign anything to a signal. If you try it: <br>
+<div style="margin-left: 40px;"><code><br>
+Reset = 0;<br>
+</code></div>
+<br>
+you'll get stopped&nbsp;immediately:<br>
+<code><br>
+</code>
+<div style="margin-left: 40px;"><code>Assigning to
+signal? in scalar assignment at (eval 101) line 2, at EOF</code><code></code><br>
+<code></code></div>
+<code><br>
+</code>
+<h3><code></code>Random generation</h3>
+<code>random_range(</code><span style="font-style: italic;">x</span><code>,</code><span style="font-style: italic;">y</span><code>)</code>
+<ul>
+</ul>
+<div style="margin-left: 40px;"><code></code>
+Returns a random&nbsp;integer&nbsp;in an&nbsp;indicated
+range (inclusive of <span style="font-style: italic;">x</span>
+and <span style="font-style: italic;">y</span>).
+Big numbers and big ranges are OK;&nbsp;it isn't&nbsp;limited
+to 32 or 64 bits.&nbsp;
+</div>
+<div style="margin-left: 80px;"><code><br>
+(Cyc:97) <span style="font-weight: bold;">$x =
+random_range(0xFFFF_FFFF, 0xF_FFFF_FFFF)</span><br>
+(Cyc:97) <span style="font-weight: bold;">print "$x\n"</span><br>
+15907648532<br>
+(Cyc:97) <span style="font-weight: bold;">print
+$x-&gt;as_hex, "\n"</span><br>
+0x3b42b7414<br>
+<br>
+</code></div>
+<div style="margin-left: 40px;">
+To assign a random value to a signal, see the <code>rndstick</code>,
+etc., commands
+below.<br>
+</div>
+<code><br>
+</code><br>
+<h2><a name="Commands_on_signals"></a>Commands on signals</h2>
+<code>put</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>p</code>&nbsp;&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp; &nbsp;# same command, shorter name<br>
+&nbsp;&nbsp;<br>
+<code>stick</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>st</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp; # same command, shorter name
+<p style="margin-left: 40px;">These take effect after the
+next simulator clock. On subsequent cycles,
+drivers in the design can override a put value but not a stick
+value.&nbsp;</p>
+<code><br>
+puti</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><br>
+<code>pi</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+&nbsp;# same command, shorter name<code><br>
+<br>
+sticki</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span><code><br>
+si</code>&nbsp;<span style="font-style: italic;">signalname</span>,&nbsp;<span style="font-style: italic;">value</span>
+# same command, shorter name
+<p style="margin-left: 40px;">These take immediate effect
+(don't wait for a simulator clock):</p>
+<p><code></code></p>
+<p><code>unstick</code> <span style="font-style: italic;">signalname</span></p>
+<p style="margin-left: 40px;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span>Remove
+the forcing behavior of a stick. If a stick and unstick are driven the
+same cycle, the unstick wins, regardless of the order in which they
+were applied. It's not necessary to unstick a signal&nbsp;before
+sticking it to a new value.<span style="font-style: italic;"><span style="font-style: italic;"></span></span></p>
+<p style="margin-left: 40px;"><span style="font-style: italic;"><span style="font-style: italic;"></span></span><span style="font-style: italic;"><span style="font-style: italic;"></span></span>
+</p>
+<code>get</code> <span style="font-style: italic;">&nbsp;signalname</span><br>
+<code>g </code>&nbsp;<span style="font-style: italic;">signalname</span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp;# same command, shorter name<br>
+<code>getc&nbsp;<span style="font-style: italic;"></span></code><span style="font-style: italic;">signalname</span><code><span style="font-style: italic;"></span></code><br>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><code></code></div>
+<code>
+</code></div>
+<div style="margin-left: 40px;">
+View a signal value: <code>get</code><code></code><span style="font-family: monospace;"> </span>displays hex
+values, <code>getc</code> displays binary. To see X's
+during multilevel sim, use <code>getc</code>; ordinary <code>get</code>
+will display 0's.
+</div>
+<div style="margin-left: 40px;"></div>
+<code>rndput</code> <span style="font-style: italic;">&nbsp;signalname</span><code></code><br>
+<code>rndstick</code> <span style="font-style: italic;">&nbsp;signalname</span><code></code><br>
+<code>rndputi</code>&nbsp;<span style="font-style: italic;">signalname</span><code></code><code></code><br>
+<code>rndsticki</code>&nbsp;<span style="font-style: italic;">signalname</span><br>
+<code></code>
+<p style="margin-left: 40px;">Drive a signal to a random
+values.
+Every invocation drives a new random value. (To drive a different
+random signal
+every cycle, they need to be called each cycle.) The commands use
+the Fusion seed, so if a session is run again with the same
+Fusion seed,&nbsp;the same numbers are generated. The <code>reload
+</code>command&nbsp;resets the seed used by all Perl randoms
+to the seed's&nbsp;value at the beginning
+of simulation. &nbsp;All these commands, and also<code>
+random_range</code>,&nbsp; share one random generator, so
+if you add a random command A ahead of random command B, B's outputs
+will&nbsp;change&nbsp;even if the seed
+is unchanged. &nbsp;For an example of&nbsp;a routine that runs
+at random times (rather than supplying random values at known times),
+see myperl.</p>
+<h2><a name="Put_and_stick:_cycle_sim_vs_event_sim"></a>Put and stick: cycle sim vs event sim</h2>
+<code>put</code> gives you control of a net&nbsp;for
+just one
+simulator&nbsp;cycle. After that&nbsp;cycle, the simulator goes
+back to
+driving the net. If&nbsp; you're driving&nbsp;an input pin<code>,put</code>
+works fine on any cycle, because nothing else in the simulation is
+trying to drive it. But if it's an internal signal,&nbsp;<code>put</code>&nbsp;needs
+to be strategically timed so it's&nbsp;at a
+latch input on the sim cycle before the latch is clocked. If you drive
+it on
+another cycle, the simulator will wrest away your put
+value&nbsp;before the latch can see it. <br>
+<br>
+This is unexpected if you're used to event simulation.<code></code><code></code>
+An event&nbsp;simulator would leave your&nbsp;<code>put</code>
+alone until an upstream net changes.<br>
+<br>
+It's easier to apply <code>stick</code>, but <code>stick</code>&nbsp;isn't
+self-canceling; to free the simulator to drive the net again you need
+to&nbsp;<code>unstick</code>. The challenge in stick is
+not staying but getting out in time.<br>
+<br>
+Here is a possible sequence for coding a <code>put</code>&nbsp;&nbsp;for
+an x16 latch<code></code>. The example uses the desi
+command <code>sim_clocks_to_xN</code>, which returns the
+number of sim clocks till the next xN clock.<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:545) <span style="font-weight: bold;">run until sim_clocks_to_xN(16) ==
+1</span>&nbsp; # go one sim cycle short of a full x16 clock<br>
+(Cyc:576) <span style="font-weight: bold;">puti
+Slow_count_d, 0xdeadbeef</span> # put immediate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::puthexImmed(0xdeadbeef,SLOW_COUNT_D)<br>
+<br>
+</code></div>
+The clock grabs the input, and then the latch drives it:<br>
+<div style="margin-left: 40px;"><code>(Cyc:576) <span style="font-weight: bold;">run 2</span> # x16 clock
+grabs value on first clock; latch shows output on second<br>
+(Cyc:578) <span style="font-weight: bold;">get
+Slow_count_q</span> # shows 0xdeadbeef<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SLOW_COUNT_Q(0:38)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0x00deadbeef</code><br>
+<br>
+</div>
+The business of inching up to the clock&nbsp;has been automated
+with the command <code>pput</code> (for precision put, or
+power&nbsp;put).<br>
+<div style="margin-left: 40px;"><code>(Cyc:576) <span style="font-weight: bold;">pput 'x16', Slow_count_q,
+0xdeadbeef</span></code><code><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::unstick(SLOW_COUNT_Q)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::puthexImmed(0xdeadbeef,SLOW_COUNT_Q)</code><br>
+<br>
+</div>
+Using <code>stick</code>:<br>
+<br>
+<div style="margin-left: 40px;"><code>(Cyc:833) <span style="font-weight: bold;">run 7</span> # any
+arbitrary sim cycle</code><br>
+<code>(Cyc:840) <span style="font-weight: bold;">sticki&nbsp;
+Slow_count_d, 0xdeadbeef</span> # <span style="font-style: italic;">stick</span> immediate</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fac ility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
+<code>(Cyc:840) <span style="font-weight: bold;">runx16
+</span># hit a latch clock</code><br>
+<code>(Cyc:865) <span style="font-weight: bold;">unstick&nbsp;Slow_count_d
+</span># job's done</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+facility::unstick(SLOW_COUNT_D)</code><br>
+<code>(Cyc:865) run 1 # look at latch output</code><br>
+<code>(Cyc:866)&nbsp;</code><code><span style="font-weight: bold;">get Slow_count_q</span> #
+shows 0xdeadbeef</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SLOW_COUNT_Q(0:38)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0x00deadbeef</code><br>
+</div>
+<br>
+<br>
+How&nbsp;the <code>put</code> sequence looks in the
+waves:
+<div style="margin-left: 40px;"><code></code></div>
+<img style="width: 804px; height: 351px;" alt="Waveform showing put" src="./put.gif"><br>
+<br>
+<code>0xdeadbeef</code> is <code>put</code> on
+<code>slow_count_d</code>
+one sim cycle before the rising x16 clock (where the marker is). Notice
+that on the next sim cycle, the simulator goes back to driving <code>slow_count_d</code>.
+But the latch has picked up <code>0xdeadbeef</code>, and
+it's visible on <code>slow_count_q</code> in the cycle
+after clkx16 goes high. The VHDL feeds back <code>slow_count_q</code>
+to <code>slow_count_d</code>, so <code>0xdeadbeef</code>
+now also appears on <code>slow_count_d</code>.<br>
+<h2><a name="Time"></a>Time</h2>
+<code>run cycles</code><br>
+<p style="margin-left: 40px;">Advance <span style="font-style: italic;">cycles </span>simulator
+clocks (default 1). Each simulator clock is&nbsp;half an x1 cycle.
+<span style="font-family: monospace;"></span></p>
+<code><br>
+</code>
+<code>runx1 </code>cycles<br>
+<code>runx2 </code>cycles<br>
+<code>runx4</code> &nbsp;cycles<br>
+<code>runx8</code> &nbsp;cycles<br>
+<code>runx16</code> cycles
+<p style="margin-left: 40px;">With no args, or cycles = 1,
+run to the next rising edge of
+the&nbsp;named x<span style="font-style: italic;">N</span>
+clock (eg, x16 clock for runx16). This can be less than a full x<span style="font-style: italic;">N</span> cycle if you
+are&nbsp;in the middle of an x<span style="font-style: italic;">N</span>
+cycle. Subsequent
+cycles,
+if any (<span style="font-style: italic;">cycles</span>
+&gt; 1), will be full x<span style="font-style: italic;">N</span>
+clocks. An
+x<span style="font-style: italic;">N</span> clock
+cycle is 2<span style="font-style: italic;">*N</span>
+simulator cycles.</p>
+<code>run_past_reset</code><br>
+<div style="margin-left: 40px;">
+<code></code></div>
+<div style="margin-left: 40px;">
+Take simulation to the falling edge of reset. No effect if reset has
+already fallen.<code></code><code></code></div>
+<p><code>cycle</code></p>
+<div style="margin-left: 40px;">
+Return the current cycle; used in scripts. Fusion&nbsp;maintains
+the cycle as a 64-bit number; <code>cycle</code> returns
+only the lower 32 bits. I
+didn't expect interactive sessions to last much beyond 4 billion cycles.<br>
+</div>
+<br>
+<code><br>
+cyclex1</code><br>
+<code>cyclex2</code><br>
+<code>cyclex4</code><br>
+<code>cyclex8</code><br>
+<code>cyclex16</code><br>
+<code></code><code></code><code></code>
+<div style="margin-left: 40px;">
+<p>Return the current x<span style="font-style: italic;">N</span>
+cycle (the number of x<span style="font-style: italic;">N</span>-clock
+rising edges&nbsp;since cycle 0). The answer is floating-point,
+which permits a test like <code>cyclex16 == 23</code>
+to return&nbsp;true only at the 23rd rising edge but also gives a
+useful answer on&nbsp;cycles between edges. (Precision is
+adequate&nbsp;for practical&nbsp;runtimes).</p>
+</div>
+<br>
+<div style="margin-left: 40px;"><code></code><br>
+</div>
+<code>q</code><br>
+<code>
+quit</code><br>
+<code>
+</code><code>exit</code>
+<p style="margin-left: 40px;">End the session from the
+command line. To end the session from a script, use <code>quit</code>().</p>
+<h2><a name="Language"></a>Language</h2>
+<p>The command-line and scripting language is Perl. Along with
+the usual C-like syntax,</p>
+<div style="margin-left: 40px;"><code>&nbsp;while
+(Reset == 0) {</code><br>
+<code>&nbsp;&nbsp;&nbsp; run</code><br>
+<code>}</code><br>
+<code></code></div>
+<p>Perl also allows surprisingly natural expressions</p>
+<div style="margin-left: 40px;"><code>run until
+Reset == 1</code><br>
+</div>
+<br>
+<p>Desi allows&nbsp;signals of any size to&nbsp;be
+compared and manipulated with the
+familiar operators (&amp;, &gt;&gt;, !=, +, etc):</p>
+<div style="margin-left: 40px;"><code>stick Foo, Bzz
++ 1</code><br>
+<br>
+</div>
+<p>Signals can be passed as arguments:</p>
+<div style="margin-left: 40px;"><code>stick
+Count_threshold_slow_q, Count_q + 7;<br>
+<br>
+</code></div>
+sets the threshold to 7 past the current count.<br>
+<br>
+<p>But assignments (including ++, etc) are not allowed:</p>
+<div style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">Reset
++= 1</span></code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Assigning to signal? in addition (+) at (eval 27) line 2, at EOF</code><br>
+</div>
+<p>One reason is&nbsp;that it's not known
+whether the assignment is meant to be a stick, put, stick immediate, or
+put immediate.&nbsp;</p>
+The run-until idiom is particularly useful in interactive
+simulation. Simulation&nbsp;can be automatically advanced to a
+condition of
+arbitrary complexity. It isn't necessary to inch forward while keeping
+an eye on the&nbsp;waves:
+<div style="margin-left: 40px;">
+<p><code>run until
+Reset == 1 || cycle &gt; 300 &amp;&amp; Fast_count_q
+&gt; 0xdeadbeef</code></p>
+</div>
+If you see&nbsp;something is about to go wrong, you have the
+opportunity to force a correct&nbsp;value and
+continue&nbsp;simulating.<br>
+<p>Run-while, the complementary idiom, is also available:</p>
+<div style="margin-left: 40px;"><code>run while
+Reset != 1 &amp;&amp; (cycle &lt;= 300 || Fast_count_q
+&lt;= 0xdeadbeef)</code><br>
+</div>
+<p>Nothing happens if the termination conditions are true when
+the command is invoked.</p>
+<p>Run-if &nbsp;and run-unless are also possible but don't
+iterate (they advance 1 or 0 cycles).&nbsp;</p>
+<p>Other actions can take place&nbsp;in addition to run. Here
+are two ways to print something each cycle until the run completes:</p>
+<div style="margin-left: 40px;"><code>run, print
+"Time is ", cycle, " and all's well\n" until&nbsp;Reset == 1 ||
+cycle &gt; 300</code><br>
+<code>do {run; print "Time is ", cycle, " and all's well\n"}
+until&nbsp;Reset == 1 || cycle &gt; 300</code></div>
+<p>Note that in the first example, the actions are
+comma-separated. Like
+the earlier examples, it will not run if the terminal conditions are
+already met. The 'do'&nbsp;in the second example is like a
+run-until; it runs before the test is applied so it runs at
+least once.</p>
+C-style syntax works, too:<br>
+<br>
+<div style="margin-left: 40px;"><code>until (Reset
+== 1 || cycle &gt; 300 &amp;&amp; Fast_count_q &gt;
+0xdeadbeef) {run; print "Time is ", cycle, " and all's well\n"}</code><br>
+</div>
+<br>
+This style can be useful with multiple actions; the punctuation between
+actions is less tricky than the comma. The braces here are always
+required, even if they contain just one statement.<br>
+<br>
+When setting multiple actions, be sure one of them is&nbsp;run,
+runx16, or some other command that will cause the<code></code>
+tested conditions to change. If there's nothing to change the
+conditions you'll loop forever.<br>
+<p>myperl gives an example of a&nbsp;driver called repeatedly
+at random cycles.</p><p>
+Semicolons are command separators. They're not needed to terminate an
+interactive command. &nbsp;An interactive command can't span more
+than
+one
+line -- backslash can't be used for continuation.&nbsp;A single
+line can have more than one command,
+delimited by semicolons.</p>
+<h3><span style="font-weight: bold;">Dotdot not</span></h3><p>The Perl <code>'..'</code> syntax (as in <code>for $i (0..22)</code>)
+doesn't work in designersim (you'll get an "as_hex" error). &nbsp;This is a
+known limitation of &nbsp;the Perl bignum library which, in compensation,
+provides many of designersim's nice features.</p><h3>Global and local variables</h3>
+A&nbsp;variable that you simply use with no declaration is global.
+All
+subroutines can see it (and change it), and&nbsp;its value persists
+across subroutine invocations. To make a variable behave like a C
+automatic -- scoped locally and created fresh with every subroutine
+invocation -- use <code>my</code>, with or without an
+assignment:<br>
+<br>
+<div style="margin-left: 40px;"><code>my $x;<br>
+my $y = cycle + 7;</code></div>
+<h2><a name="Commands_starting_new_windows"></a>Commands starting new windows</h2>
+<code>vhdl<br>
+</code>
+<code>myperl<br>
+cmdlog<br>
+</code>
+<br>
+<div style="margin-left: 40px;">Open an editor
+with&nbsp;the vhdl
+source file, user script, or command log. You can then pick up your
+vhdl changes by running&nbsp;<code>respin</code>; your
+myperl changes by&nbsp;running&nbsp;<code>reload</code>,
+or your cmdlog changes by&nbsp;running&nbsp;<code>rerun</code>.
+&nbsp;Uses <code></code>the editor&nbsp;in the
+<code>EDITOR</code> environment variable. To use these
+commands you should have an editor like&nbsp;<code>emacs</code>
+that opens a new window<code>;</code> don't use if your
+editor is<code> vi.</code></div>
+<br>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+<code>
+mantis</code><br>
+<code>
+</code><br>
+<div style="margin-left: 40px;">
+Opens the waveform viewer. Once open, the viewer can stay open between
+simulation sessions.
+</div>
+<h2><a name="Waveform_contents"></a>Waveform contents</h2>
+Running <code>newdir </code>creates a starter set of
+waves -- clocks, reset, and input and output pins.&nbsp;The waves
+are in <code>wave.io</code> in the work directory; this is
+the file the <code>mantis</code> command reads.<br>
+<br>
+There are a number of ways to
+change the set of waves displayed:<br>
+<ol>
+<li>Edit <code>wave.io</code> directly</li>
+<li>Type or paste signal names in the&nbsp;<code>command</code>
+field at the
+bottom of the waves</li>
+<li>Select the name of a signal or signals in the left pane of
+the viewer (they turn white when selected) and <code>ctrl-E</code>.</li>
+</ol>
+To go directly to the latest time, point mouse near the end of the time
+slider and press ctrl-middle mouse button. Alternatively, select or
+type
+<code>END</code> in the <span style="font-family: monospace;">Go to:</span><code></code>
+window at upper left.<br>
+<br>
+Mantis can also be started independently of desi. Run&nbsp;<code>mantis</code>
+in a&nbsp;work directory. A nonzero-length AET file needs to exist;
+it can be an AET from a previous simulation. It's ok for the AET to get
+overwritten&nbsp;(even with a shorter AET) while the waveform
+viewer is up.<br>
+<h2><a name="The_script_file"></a>The&nbsp;script file</h2>
+<p>Sequences of commands -- for initialization, test sequences,
+etc -- can be put into subroutines and run on
+the command line.</p>
+So typing a command like <br>
+<div style="margin-left: 40px;"><code><br>
+clear_dcr_outputs</code> <br>
+</div>
+<br>
+will execute
+<p><code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Cs_bic_stopped, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Enable_slow_q,
+0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Inc_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_slow_count_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_clock_stop_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Count_threshold_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Enable_bic_cs_stop, 0;</code><br>
+<code></code></p>
+<p>if you've put&nbsp;a subroutine </p>
+<div style="margin-left: 40px;"><code>sub
+clear_dcr_outputs {</code><code><br>
+&nbsp;&nbsp;&nbsp; put&nbsp;
+Cs_bic_stopped, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Enable_slow_q,
+0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp; Inc_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_slow_count_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Clear_clock_stop_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Count_threshold_slow_q, 0;</code><br>
+<code>&nbsp;&nbsp;&nbsp; put&nbsp;
+Enable_bic_cs_stop, 0;</code><br>
+<code>}</code><br>
+<code></code></div>
+<p>in <code>myperl</code>. &nbsp;You can add and
+modify subroutines on the fly and load them into the current session by
+typing <code>reload. </code>This also reinitializes the
+random seed. </p>
+<p>The subroutines are in Perl, with&nbsp;transparent
+extensions to
+handle signal names and big values.</p>
+<code>myperl</code> has&nbsp;three&nbsp;subroutines
+to which you can add
+user code. They&nbsp;get called automatically at specific times in
+the
+simulation:<br>
+<ol>
+<li><code>run_at_startup</code> --&nbsp;You
+would add here initialization
+code that should&nbsp;run only&nbsp;at the beginning of
+simulation.</li>
+<li><code>run_at_reload</code> --&nbsp;You
+would add here code that should
+run when <code>myperl</code> is&nbsp;<code>reload</code>ed
+-- for instance, to reinitialize variables by setting them back to <code>undef</code>.</li>
+<li><code>run_each_cycle</code>
+--&nbsp;Anything
+scheduled to run in the future, once or repeatedly, goes here --
+checkers as well as drivers.&nbsp;See comments in <code>myperl</code>
+for details and
+examples.</li>
+</ol>
+<br>
+Note: If <code>myperl</code> contains errors, the error
+messages may refer to <code>myperl.rw</code><code></code>.
+You can treat the messages as referring to <code>myperl</code>.
+<code>myperl.rw</code> is identical to myperl except
+that&nbsp;parens&nbsp;have been added to signal
+names. Parens are also added (invisibly) when you type&nbsp;on the
+command
+line. (The parens resolve Perl's parsing of
+commands&nbsp;like&nbsp;<code>Count_q &lt; 1</code>,
+where&nbsp;&lt; is used as the "less-than" operator with a
+signal;&nbsp; without parens Perl sees an unfinished
+&lt;&gt;
+operator.) &nbsp;Scripts&nbsp;included in <code>myperl</code>
+using&nbsp;Perl's <code>do</code>
+command&nbsp;won't get&nbsp;preprocessed.<br>
+<h2><a name="Session_logging_and_recovery"></a>Session logging and recovery</h2>
+Two logfiles enable you to review and/or rerun a session:<br>
+<br>
+<code>1) desi.log </code>is a full transcript
+including user input and system messages. &nbsp;Like a log from the
+Unix&nbsp;<code>script&nbsp;</code>command, it may
+contain unprintable cursor-control&nbsp;characters; use<code>
+less -r</code>
+to get a clean view: <br>
+<div style="margin-left: 40px;">
+<p><code>less -r
+desi.log</code></p>
+</div>
+<p>If <code>grep </code>complains about a binary
+file, use the grep option&nbsp;<code>--binary-files=text</code></p>
+<p></p>
+<p><code></code>2) <a name="desi.cmdlog"></a><code>desi.cmdlog</code>&nbsp;contains
+only your commands. If you make a
+mistake, you can use this&nbsp;to&nbsp;return to where
+you were. Edit <code>desi.cmdlog</code> to remove or
+correct the mistake&nbsp;, and then:<br>
+</p>
+<ul>
+<li>If you've lost the session and are back at the shell, run
+desi with the <code>-rerun</code> option:&nbsp;<code>desi
+-rerun</code></li>
+<li>If you're still in the session, run <code>rerun.</code>
+This quits the current session and runs a new one following the
+commands in desi.cmdlog.</li>
+</ul>
+All Fusion parms&nbsp;from the earlier session&nbsp;(eg seed)
+are reused. &nbsp;See <a href="#Starting_over">Starting
+over</a> for commands that replay a session using&nbsp;<code>desi.cmdlog.</code>
+<p>The logfiles are overwritten every time <code>desi</code>
+runs (including when it runs with the <code>-rerun </code>option)</p>
+<h2><a name="Working_directories"></a>Working
+directories</h2>
+<p><code>newdir</code> creates directories with the
+path</p>
+<p><code>&nbsp;&nbsp;&nbsp; designersim</code>/<span style="font-style: italic;">libraryname/entityname</span></p>
+<p>for example:</p>
+<p style="margin-left: 40px;"><code>designersim/clockstop/cs</code></p>
+<p>These are the designersim <code>working directories</code>,
+where design-specific files and scripts are kept and&nbsp;tools
+like <code>desi </code>are&nbsp;invoked.&nbsp;</p>
+<p>"Working directory" does not refer to the <code>bgq/work</code>
+path.&nbsp;</p>
+<h2><a name="newdir_options"></a><code>newdir</code>
+options</h2>
+If newdir fails (eg because of a VHDL compile error), it's safe to run
+it again. It's also safe to run newdir if the directory already exists;
+it won't clobber existing files.<br>
+Typing&nbsp;<code>newdir -h</code> &nbsp;(or <code>-help</code>,
+or <code>--help</code>, or <code>--h</code>)
+shows available options:<br>
+<br>
+<div style="margin-left: 40px;"><code>&gt; <span style="font-weight: bold;">newdir -h</span></code><br>
+<code></code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Creates
+a working directory for designer sim.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Can do CVS and SVN
+checkouts if needed. Can compile and build model if none exists.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; By default, will not
+overwrite existing files.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Requires environment
+variable BGQHOME.<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir (no args): prompts for unit ( = DDX directory = VHDL library, eg
+"clockstop")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+and entity ( = VHDL filename, or VHDL filename minus .vhdl, eg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"cs" or "cs.vhdl")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir &lt;entity&gt; : create workdir for another entity in
+the same library as this workdir<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+newdir &lt;unit&gt; &lt;entity&gt;<br>
+</code><code></code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<code><br>
+</code>
+<div style="margin-left: 40px;"><code>After running
+newdir, you can get to the new work directory by pressing the middle
+mouse button&nbsp;and enter.</code><br>
+</div>
+<br>
+</div>
+For the entity it's OK to use the VHDL filename instead&nbsp;(<code>cs.vhdl</code>
+instead of <code>cs</code>).
+<h2><a name="VHDL_requirements"></a>VHDL&nbsp;requirements</h2>
+<p>
+All&nbsp;designs currently (12/25/07) in
+CVS already meet these requirements.
+VHDL&nbsp;requirements&nbsp;are case-insensitive.</p>
+<ol>
+<li>VHDL file name same as entity (entity <code>x</code>&nbsp;&#8594;<code>
+x.vhdl</code>). Filename lowercase.</li>
+<li>Architecture named <code>golden&nbsp;</code></li>
+<li>DCR ports have the form <br>
+<div style="margin-left: 40px;"><code>dc_&lt;entity&gt;_xxx</code><br>
+<code>&lt;entity&gt;_dc_xxx</code><br>
+</div>
+or<br>
+<div style="margin-left: 40px;"><code>dcr_&lt;entity&gt;_xxx</code><br>
+<code>&lt;entity&gt;_dcr_xxx</code></div>
+</li>
+<li>Each port signal declared on a separate line (no commas).</li>
+<li>Reset input named <code>reset</code>.</li>
+<li>Clock pin &nbsp;names as
+specified&nbsp;by&nbsp;https://yktgsa.ibm.com/projects/b/bgq/web/methodology/clock_pins.html&nbsp;&nbsp;<code></code><code></code><code></code><code></code><code></code>and
+declared&nbsp; as <code>vec_clock_type</code>.
+&nbsp;At present only the processor-clock multiples are supported
+(x1,
+x2, x4, x8, x16). Network clock (clk_n500) will be added (and possibly
+PCIe?).</li>
+</ol>
+<h2><a name="Where_PortalsMesa_output_files_are"></a>Where Portals/Mesa output files are</h2>
+<p>The results of a model build&nbsp;<code></code><code></code>are
+placed in <code>$BGQHOME/bgq/ddx/dadb_2</code>.
+This directory can be deleted to give&nbsp;the equivalent of a
+"make clean." Model files have the extension <code>m2msod</code>
+or <code>m3msmod</code> (for
+three-state).&nbsp;<code>desi</code>&nbsp;uses
+whichever
+was&nbsp;created more recently.</p>
+<p>For the interactive session,&nbsp;the&nbsp;the aet is
+in the older AE1 format to permit cycle-by-cycle updates. (The newer
+AE2 style has buffering.) Commands for&nbsp;AE2 files (the
+AE2-enhanced List Signals option for instance, or, unfortunately, the
+Fusion functions that write directly to AETs) will not work.<span style="font-weight: bold;"></span></p>
+<h2><a name="Error_messages"></a>Error messages</h2>
+<p>By default the tools replace several standard Perl error
+messages with ones that are application-specific or just simpler. <code>$desiparms::informal_messages</code>
+(initially 1) controls this feature:</p>
+<p style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">$desiparms::informal_errmsgs
+= 0</span><br>
+(Cyc:1) foo<br>
+Bareword "foo" not allowed while "strict subs" in use at (eval 24) line
+1, &lt;$LNET&gt; line 1242.</code></p>
+<div style="margin-left: 40px;"><code>(Cyc:1) <span style="font-weight: bold;">$desiparms::informal_errmsgs
+= 1</span></code><br>
+<code>(Cyc:1) foo</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+What's "foo"?</code><br>
+</div>
+<p>Not all messages could be tamed. If you forget a comma between
+arguments:</p>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">stick Reset 27</span></code><br>
+<code>Number found where operator expected at (eval 80) line 1,
+near ") 27"</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(Missing operator before 27?)</code><br>
+<code>syntax error at (eval 80) line 1, near ") 27"</code><br>
+</div>
+<p>If you forget arguments altogether:</p>
+<div style="margin-left: 40px;"><code>(Cyc:97) <span style="font-weight: bold;">get</span><br>
+Use of uninitialized value in concatenation (.) or string at
+/ltmp/bjn/bgq/hwsim/src/fusion/designersim/FacCmds.pm line 44.<br>
+unrecognized signal&nbsp; at
+/ltmp/bjn/bgq/hwsim/src/fusion/designersim/FacCmds.pm line 44.</code><br>
+</div>
+<p>In scripts, misspelling a signal name (or forgetting the
+initial capital letter) leads to:</p>
+<div style="margin-left: 40px;"><code>Bareword "foo"
+not allowed while "strict subs" in use at ./myperl.rw line 77.</code><br>
+</div>
+<p></p>
+<h3>Testcase 1.1 FAILED</h3>
+<p>When writing interactive commands it's easy to accidentally
+write a nonterminating condition:</p>
+<div style="margin-left: 40px;"><code>(Cyc:23) run
+until cycle == 21</code><br>
+</div>
+<p>Unfortunately there's no way to recover; simulation will run
+to the end and give the message</p>
+<div style="margin-left: 40px;"><code>Testcase 1.1
+FAILED</code><br>
+</div>
+<br>
+<p>This message means that&nbsp;simulation time reached a
+user-specified timeout. The timeout is specified via the in.parms file:</p>
+<div style="margin-left: 40px;"><code>//------------------------------------------------------------------------------<br>
+// Sim timeout value (sim will fail if it reaches MaxTime cycles)<br>
+//------------------------------------------------------------------------------<br>
+Fusion.MaxTime = 10000;<br>
+</code></div>
+<p>Feel free to modify it. A short timeout means fewer moments of
+helpless watching when your session runs away, but can also surprise
+you in the middle of a longer session.</p>
+<p>If you die in the middle of useful work, remember that you can
+get desi to <a href="#desi.cmdlog">play back</a>
+your previous session so you resume&nbsp;where you were.</p>
+<h2><a name="Starting_over"></a>Starting over</h2>
+<p>It's not directly possible to start again from time zero; the
+simulator needs to be quit and restarted. There are a couple of
+commands in <code>desi</code> to make this easier.</p>
+<p><code>rerun</code></p>
+<p style="margin-left: 40px;">Restart the simulator,
+rerunning the commands of the current session from&nbsp;<code>desi.cmdlog</code>.
+You might do this while debugging a script in myperl.&nbsp; Parms
+of
+the current session are&nbsp;preserved. It's possible to edit
+&nbsp;<code>desi.cmdlog </code>first to remove
+commands you don't want to run again.<code></code> </p>
+<p><code>restart</code></p>
+<p style="margin-left: 40px;"><code></code>Restart
+the simulator with a new session, and keep the last&nbsp;session's
+parms, but don't replay the last session's commands.</p>
+<p><code>respin</code></p>
+<p style="margin-left: 40px;">Rebuild the VHDL and rerun
+the simulation<code></code><code>. </code>You'd
+use this if you're debugging the VHDL. If
+there's an error rebuilding, respin doesn't restart the sim but
+shows the error log instead.&nbsp; Parms&nbsp;and&nbsp;Mesa
+model type&nbsp;(m3msmod or m2msmod) are preserved. Like&nbsp;<code>rerun,&nbsp;</code>you
+can edit&nbsp;<code>desi.cmdlog&nbsp;</code>first.</p>
+<p><code></code>For these commands&nbsp;<code></code><code></code>Fusion
+parms are read from the most recent <code>out.1.*.parms</code>
+file, created during each Mesa run. If you delete these files for
+housekeeping, leave the most recent one. If you delete them all,
+&nbsp;<code>desi </code>won't be able to recover the
+Fusion parms and will fail at startup.</p>
+<h2><a name="xg"></a>Quasi-drag-and-drop
+signal names</h2>
+<p>The desi command <code>xg</code> (for "X grab")
+translates a net name on the X windows clipboard to a signal name.
+Select a net name (from the waves, from an editor or web browser, etc.)
+and type 'xg&lt;return&gt;' in the simulator. The middle mouse
+button's paste function will then deposit the translation.</p>
+Select<br>
+<div style="margin-left: 40px;"><code>CLEAR_F.LL.BIT#0.LP.ZZ.VITALBEHAVIOR.L1CLK</code><br>
+</div>
+Run xg:<br>
+<div style="margin-left: 40px;"><code>(Cyc:0) <span style="font-weight: bold;">xg</span></code><br>
+</div>
+Can then paste the signal name into a command:<br>
+<div style="margin-left: 40px;"><code>(Cyc:0) <span style="font-weight: bold;">g
+Clear_f_ll_bit_0_lp_zz_vitalbehavior_l1clk</span></code><br>
+</div>
+<h2><a name="Using_SVN"></a>Using SVN</h2>
+<p>The initial work directory comes to you ready
+for&nbsp;check-in into
+Subversion. The CVS commands
+add, commit, and update&nbsp;work in Subversion;&nbsp;so does
+diff:</p>
+<div style="margin-left: 40px;"><code>svn add</code><br>
+<code>svn commit</code><br>
+<code>svn update</code><br>
+<code>svn diff</code></div>
+<p>You're encouraged to use Subversion to save versions of
+your work&nbsp;and make it accessible to others. &nbsp;</p>
+<p>On the other hand, it's best to commit only the files that
+you've&nbsp;have modified (<code>svn commit</code> by
+default will commit everything). This makes it easier to do updates of
+the designersim code.</p>
+<h2><a name="BGQHOME"></a>BGQHOME</h2>
+<p>Set to the path up to but not including your<span style="font-family: monospace;"> </span><code>bgq
+</code>directory.
+The newdir
+tool will prompt if <code>BGQHOME</code> is not set. If
+there's no <code>bgq</code> directory,
+newdir will create one at <code>$BGQHOME</code>.</p>
+<p>Most of the BGQ simulation tools -- not just designer sim, but
+unit sim and full-chip sim as well -- depend on <code>BGQHOME</code>
+being
+set; you should have it in your
+profile.</p>
+<h2><a name="designersim_path"></a>$BGQHOME/bgq/hwsim/src/fusion/designersim</h2>
+<p>Nearly all the designersim programs&nbsp;are in this
+directory.&nbsp;&nbsp;If you sometimes need to change
+<code>BGQHOME</code>, you can still add designersim to <code>PATH</code>;
+see this <a href="instructions.html#Re-pathing_designersim">note</a>.&nbsp;If
+you have religious objections to changing <code>PATH,</code>
+the&nbsp;tools will&nbsp;work but&nbsp;you'll need to
+specify the
+path on the command line or write aliases.</p>
+<h2><a name="Shell_commands"></a>Shell commands</h2>
+All are&nbsp;run from a working directory. Most of
+these would normally be run either automatically by the tools or from
+the desi command line. <code></code><br>
+<code><br>
+mantis<br>
+</code>
+<div style="margin-left: 40px;">Open the waveform viewer.</div>
+<code>makevhdl<br>
+</code>
+<div style="margin-left: 40px;"><code></code>Compile and&nbsp;build model.&nbsp;They pick up the names they need (library and
+entity) from the current working directory.<br>
+<code></code></div>
+<code>makevhdl viewlog<br>
+</code>
+<div style="margin-left: 40px;">View logfiles from the VHDL build.
+Opens the most recently created logfile and highlights&nbsp;the first
+occurrence of the word 'error'.</div>
+<code><br>
+make_wave_io<br>
+</code>
+<div style="margin-left: 40px;">Create a starter set of
+waves in <code>waves.io</code>. If<code>&nbsp;waves.io</code>
+already exists, it won't clobber it. &nbsp;<code></code>It
+can&nbsp;be run
+only after&nbsp;model build.</div>
+<code></code><br>
+<code>respin</code><br>
+<div style="margin-left: 40px;">Like
+the desi command, recompiles VHDL and makes a new model, then reruns
+desi.cmdlog. Displays the relevant logfile if Portals or Mesabld fails.
+</div>
+<h2><a name="Native_Fusion_interface"></a>Native&nbsp;Fusion&nbsp;interface</h2>
+The designersim user interface significantly extends the interface
+described in the Perl Interface chapter of the Fusion user guide.
+&nbsp;The echoing of commands like put and stick shows the
+underlying Perl Fusion command.<br>
+<br>
+Some of the&nbsp;commands described in that chapter
+might be usable&nbsp;in designer sim (caution:&nbsp; <em>untested</em>):<br>
+<br>
+<table style="text-align: left; width: 273px; height: 290px; margin-left: 40px;" border="1" cellpadding="2" cellspacing="0">
+<tbody>
+<tr>
+<th>Function</th>
+<th>Interactive version</th>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::aet</code></td>
+<td align="undefined" valign="undefined"><code>aet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::bspReset</code></td>
+<td align="undefined" valign="undefined"><code>bspReset</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::figtreeGet</code></td>
+<td align="undefined" valign="undefined"><code>figtreeGet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::figtreeSe t</code></td>
+<td align="undefined" valign="undefined"><code>figtreeSet</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::info</code></td>
+<td align="undefined" valign="undefined"><code>info</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::warning</code></td>
+<td align="undefined" valign="undefined"><code>warning</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::error</code></td>
+<td align="undefined" valign="undefined"><code>error</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::pass</code></td>
+<td align="undefined" valign="undefined"><code>pass</code></td>
+</tr>
+<tr>
+<td align="undefined" valign="undefined"><code>fusion::debug</code></td>
+<td align="undefined" valign="undefined"><code>debug</code></td>
+</tr>
+</tbody>
+</table>
+<br>
+Don't use the other commmands&nbsp;in the chapter. They will not
+work, or will work differently, or will interfere; and in general they
+provide less functionality.<br>
+<br>
+Some ways&nbsp;the designersim user interface
+differs&nbsp;from the native Fusion interface:<br>
+<ol>
+<li>desi works with integers of any size. In the native
+interface, users must choose between string and integer
+representations of signal values; neither is perfectly suited for
+simulation. Strings support
+signals of any size but don't support any of the familiar bit,
+arithmetic, or comparison operations (&amp;,+,&lt;=);
+even a&nbsp;string test&nbsp;for equality can be deceived by
+leading zeros. Also, users must remember to add quotes
+around&nbsp;values. Integers, while they&nbsp;do
+support bit ops, can't be used for&nbsp;signals wider than 32 bits.
+The designersim tools make
+use of Perl's big-integer library and constant overloading to allow
+expressions with
+unquoted integer literals of any size. </li>
+<li>Signal names can be used directly in&nbsp;expressions
+like <code>Slow_count_q
++ 1</code> or <code>Slow_count_q == 0x7fffffff</code>.
+It is not necessary to first call a function to retrieve
+the&nbsp;signal's value. Perl
+operator overloading makes this transparency possible.<br>
+</li>
+<li>By controlling the clock via the run() subroutine,
+designersim also
+provides&nbsp;the run_at_startup, run_at_reload, and run_each_cycle
+interfaces.</li>
+<li>Signals in scripts or on the command line never need to be
+declared.&nbsp;When a signal name is used for the first time in a
+script or the command line, the tools find the net and declare it
+automatically.</li>
+<li>The designer-sim tools attempt to provide more user
+feedback. In the native interface, command-line errors&nbsp;are not
+always reported. desi reports not only errors, but also warns if, say,
+it's truncating a value to fit a signal width.</li>
+</ol>
+<h2><a name="Long_goodbyes"></a>Long goodbyes</h2>
+There's a bug in interactive Perl Fusion, unrelated to <code>desi</code>,
+that causes it to dump core when the user quits. The bug has been
+reported and we await a fix. It wouldn't be design automation if it
+didn't have at least one irritating how-could-they-have-missed-this bug.<code><br>
+<br>
+desi</code>
+attempts to make&nbsp;the problem&nbsp;invisible.
+Generation of the coredump file is suppressed and the end-of-the-world
+message is not displayed. <br>
+<br>
+But if you have an error in your script, so that <code>desi</code>
+doesn't load, you'll see the&nbsp;message when you quit.
+&nbsp;Sometimes&nbsp;Fusion hangs on its way out;
+then&nbsp;you'll need
+to kill <code>desi</code> from another window. The command
+<code>desikill</code>, typed at&nbsp;a Unix command
+line, will kill all <code>desi</code> sessions you have
+open..<br>
+<br>
+<h2><a name="Noninteractive_designer_sim"></a>Noninteractive designer sim</h2>
+Some designs can't be run interactively for long before dumping core.
+This is a problem in interactive Perl Fusion, not <code>desi </code>itself,
+and is known to the Fusion team. Fortunately, noninteractive Perl
+Fusion is not affected, and&nbsp;a noninteractive designersim
+version, <code>desibatch</code>, is provided&nbsp;for
+these cases. &nbsp;For noninteractive sim, whatever you want to run
+must be invoked via <code>run_at_startup</code>. The sim
+will terminate&nbsp; after your last <code>run</code>
+command. When using <code>desibatch</code> the <code>print</code>
+and <code>echo</code> commands continue to write to the
+screen; you may prefer to write to the <code>out.SUM</code>
+file, using commands like <code>fusion::info()</code>.
+(Unfortunately <code>fusion::error() </code>crashes the
+sim,&nbsp;so you may want to print a fail message&nbsp;to the
+console yourself<code></code>.) If you do send
+all&nbsp;output to the screen, you may want to turn off Fusion's <code>Cyc
+0000098: Evaluate:&nbsp;&nbsp; 000.269 sec elapsed, 936 KBytes
+used </code>messages by setting the parm <code>Fusion.TimerEnabled=false
+</code>either when invoking desibatch or in the <code>in.parms</code>
+file.
+<h2><a name="assert_off"></a>Suspending Mesa <code>ASSERT</code>
+messages</h2>
+Sometimes <code>ASSERT</code> messages appear at startup,
+particularly
+in multilevel ('X') simulation. Asserts&nbsp;can be suspended at
+startup and reenabled at a user-specified time via the parm <code>ResetDriver.restore_asserts_cycle</code>,
+which can be specified on the command line:<br>
+<br>
+<div style="margin-left: 40px;"><code>desi
+ResetDriver.restore_asserts_cycle=XXX;<br>
+<br>
+</code></div>
+or in the <code>in.parms</code> file. By default, this
+parm is 0 and asserts are never disabled.
+<h2><a name="Perl_and_FLite"></a>Perl and FLite</h2>
+News flash: FLite does not work on the 64-bit machines. It's a simple
+fix for the Fusion developers, but it's not clear when they will add
+it.
+<h3>desi as debugger</h3>
+<p>desi can be completely driven and checked by Perl scripts.
+Alternatively, the interactive environment can be run as a kind
+of&nbsp;debugger. You write stimulus and checkers in <a href="http://wwwimd.austin.ibm.com/tools/fusion/doc/flite_user_guide.pdf">FLite</a>&nbsp;or
+standard Fusion
+which can&nbsp;run unattended, but rather than running these with <code>runmesa</code>,
+you start <code>desi</code>, which enables you to examine
+and force signals, to "single-step" via <code>runx<span style="font-style: italic;">N</span></code>,&nbsp;and
+to set "breakpoints" via <code>run until</code>.</p>
+<p>Perl is analogous to the ncsim command line, and FLite is
+analogous
+to a VHDL testbench. &nbsp;Compared to a VHDL testbench, FLite
+gives
+more control and visibility, because it is not restricted to ports, and
+C++ is arguably a more productive language than VHDL.</p>
+<h3>Adding FLite modules</h3>
+Perl and FLite already coexist in desi. Any entity with a reset pin is
+driven by&nbsp; <code>ResetDriver.flt</code>&nbsp;
+in the designersim directory. You can add your own module&nbsp;by
+including it in <code>FLite.ModuleFilenameList </code>in
+the <code>in.parms</code> file in the work directory:<br>
+<br>
+<div style="margin-left: 40px;"><code>FLite.ModuleFilenameList
+= ResetDriver.flt, dcr.flt, <span style="font-weight: bold;">SomethingYouWrote.flt</span>;<br>
+<br>
+</code></div>
+The module can go&nbsp;in the work directory or in the "unit-level"
+directory above the working directory. Don't add FLite library files
+(as opposed to modules). Library files will be found automatically if
+they're in either directory.
+<h3>Multiple stimuli in Perl</h3>
+<p>It's easy to write a single&nbsp;stimulus&nbsp;in the
+desi environment. It advances time whenever it needs to via <code>runx<span style="font-style: italic;">N</span></code>:</p>
+<div style="margin-left: 40px;"><code>runx16, 12;<br>
+put Count_q, 0x2727;</code><br>
+<code>runx16, 22;</code><br>
+<code>put Count_q, 0;<br>
+<br>
+</code></div>
+You&nbsp;can't boss time like this if you want to concurrently
+run&nbsp;independent stimuli. In that case, the stimuli run under <code>run_each_cycle,</code>
+each waiting for the right cycle to come around:&nbsp;<code><br>
+</code>
+<div style="margin-left: 40px;"><code><br>
+put Count_q, 0x2727 if&nbsp;x16 == 12;<br>
+put Count_q, 0 if&nbsp;x16 == 12+22;<br>
+<br>
+</code></div>
+"12+22" is clearer than&nbsp;34. The
+commands&nbsp;can&nbsp;go directly in<code> run_each_cycle</code>
+or into a subroutine called from <code>run_each_cycle</code>.
+To move time forward you would have a&nbsp; <code>run&nbsp;</code><span style="font-style: italic;"></span><code></code>or&nbsp;<code>run
+until</code> in <code>run_at_startup</code>.&nbsp;<br>
+<code><br>
+</code>The "12+22+..." style can require&nbsp;changes down
+the line if
+one of the times changes, and it doesn't support random times. The
+sequence can be expressed instead as a series of offsets.<br>
+<br>
+<div style="margin-left: 40px;"><code>do {$t = x16;
+put Count_q, 0x2727} if x16 == 12;</code><br>
+<code>do {$t = x16; put Count_q, 0} if x16 == $t + 22;</code><code></code></div>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+In this second case, the stimulus has state that will
+remain&nbsp;intact between invocations. To guarantee that <code>$t</code>
+is not clobbered by another <code>$t</code>, uniquify it,
+either manually<br>
+<br>
+<div style="margin-left: 40px;"><code>do
+{$FancifulName_t =&nbsp;cycle; put Count_q, 0x2727} if x16 == 12;</code><br>
+<code>do {$FancifulName_t = cycle; put Count_q, 0} if x16 == $t +
+22;</code><code></code></div>
+<div style="margin-left: 40px;"><code><br>
+</code></div>
+or by using Perl's <code>package</code> command:<br>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;<code>&nbsp;&nbsp;
+package FancifulName;&nbsp;<br>
+</code>
+<div style="margin-left: 40px;"><code>&nbsp;{<br>
+&nbsp;&nbsp;&nbsp; &nbsp;do {$t =&nbsp;cycle; put
+Count_q, 0x2727} if cycle == 12;<br>
+</code><code>&nbsp;&nbsp;&nbsp; &nbsp;do
+{$t=cycle; put Count_q, 0} if cycle == $t + 22;</code><code></code></div>
+<div style="margin-left: 40px;"><code>&nbsp;}<br>
+</code></div>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+Don't use&nbsp;<code></code><code>my</code>
+to isolate <code>$t</code>; the variable won't stick
+around across invocations.<br>
+<h3>Multiple stimuli in FLite</h3>
+For serious simulation with concurrent stimulus, FLite is a better
+tool.&nbsp;It's fine if multiple threads contain clock() commands:<br>
+<div style="margin-left: 40px;"><code><br>
+clock(12);<br>
+put Count_q, 0x2727;</code><br>
+<code>clock(22);</code><br>
+<code>put Count_q, 0;<br>
+</code></div>
+<p>because clock() doesn't drive the clock; it's a
+wait-for-clock. FLite threads act like VHDL processes.</p>
+It might be possible to add a&nbsp;semantic like this to the desi
+environment, but there's none&nbsp;currently.<br>
+<br>
+<h3>desi and&nbsp;Bugspray, PSL</h3>
+Bugspray seems a natural complement&nbsp;do
+some or all simulation checking.&nbsp;Bugspray can go
+into&nbsp;Fusion
+or VHDL.&nbsp;&nbsp;PSL is also a
+possibility;&nbsp; here again there's a choice of&nbsp;VHDL
+(VHDL 2000 includes PSL) or&nbsp;Fusion (Fusion now can include PSL
+directly). I'd like to work with anyone who wants to include these.<br>
+<br>
+<h2><a name="Desi_and_Fusion"></a>Desi and Fusion</h2>
+Designersim can be used as a fast&nbsp;start for RTX development.
+You
+can start writing code without having to set up an environment. Later
+the RTX can be moved to a&nbsp;permanent location and the missing
+pieces (eg, clock vector and reset) added.<br>
+<ol>
+<li>Copy <code>Makefile.sample</code> from <code>designersim</code>
+to the working directory (naming it just <code>Makefile</code>).
+Customize <code>TARGET</code> to your .so name.</li>
+<li>Add your .so to <code>in.mesa.dll</code>
+(below <code>libdesigner</code>).</li>
+<li>You can create SimRiseClock instances as
+you normally would, or piggyback on&nbsp;bgqClockVec, which fires
+on the same cycles, by declaring an alias:</li>
+</ol>
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><code>#include
+"obj/ObjectAliasSpec.h"</code><br>
+<code>static ObjectAliasSpec clkx2a("", "bgqClockVec[_x2,_x16]",
+"%.SimRiseClock[_x2,_x16]");</code><br>
+<code></code></div>
+<br>
+</div>
+Perl
+Fusion&nbsp;allows coordination between Perl code and RTX, using an
+object that can exchange strings with&nbsp;the Perl side. I've
+created
+the object (the documentation is incorrect) and gotten the
+communication to work, but I'm not currently exploiting it. One
+application might be to augment the Perl UI with features that are
+normally available only from RTX.&nbsp;Another might be to control
+RTX
+from Perl, where Perl writes a string telling&nbsp;the RTX when to
+start, the RTX runs concurrently, and then the RTX writes a string
+telling Perl that it's finished.<br>
+<h2><a name="Re-pathing_designersim"></a>Re-pathing
+designersim</h2>
+<p>If you sometimes change <code>BGQHOME,</code>&nbsp;the&nbsp;designersim
+in <code>$PATH</code> needs to track the change<code></code>.
+One way to do this is to change <code>BGQHOME</code> using
+a bash function&nbsp;/ tcsh alias (I named
+mine&nbsp;<code>reworld</code> )</p>
+<p style="margin-left: 40px;"><code>reworld</code>&nbsp;<span style="font-style: italic;">newdir</span></p>
+<p><code></code>which changes not only <code>BGQHOME</code>
+but&nbsp;other environment variables that depend on it.</p>
+<p>For <span style="font-weight: bold;">bash</span>
+or <span style="font-weight: bold;">ksh</span>,
+include a function in .bashrc/.kshrc:</p>
+<div style="margin-left: 40px;"><code>reworld() {<br>
+&nbsp;&nbsp;&nbsp; export BGQHOME=$1;<br>
+&nbsp;&nbsp;&nbsp; old_designersim=$DESIGNERSIM;<br>
+&nbsp;&nbsp;&nbsp; export
+DESIGNERSIM=$BGQHOME/bgq/hwsim/src/fusion/designersim;<br>
+&nbsp;&nbsp;&nbsp; if [[ -n "$old_designersim" ]]; then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+export PATH=${PATH//$old_designersim/$DESIGNERSIM};<br>
+&nbsp;&nbsp;&nbsp; else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+export PATH=$PATH:$DESIGNERSIM;<br>
+&nbsp;&nbsp;&nbsp; fi<br>
+}<br>
+<br>
+</code></div>
+The&nbsp;<code>if</code> clause replaces the previous <code>DESIGNERSIM</code>
+on the path with the new one. The <code>else</code> covers
+the case where <code>DESIGNERSIM</code> hadn't previously
+been set.<br>
+<br>
+You can include in the function other environment variables and aliases
+that use <code>BGQHOME:</code><br>
+<br>
+<div style="margin-left: 40px;"><code>export
+BGQ=$BGQHOME/bgq</code><br>
+<code>alias bgq="cd $BGQ"<br>
+</code></div>
+<p>When you run&nbsp;<code>reworld </code>to
+change <code>BGQHOME, </code>the variable and alias will
+track the changes.<span style="font-family: monospace;"></span><code></code></p>
+You can also decide how to handle the case where no argument is given
+-- for instance, to set <code>BGQHOME </code>to the
+current directory,
+or to revert to a default <code>BGQHOME</code> setting.<br>
+<p>
+For <span style="font-weight: bold;">tcsh</span>,
+create a <code>reworld.csh</code> script:<br>
+</p>
+<div style="margin-left: 40px;">
+<code>setenv BGQHOME $1</code><br>
+<code>set new_designersim =
+${BGQHOME}/bgq/hwsim/src/fusion/designersim</code><br>
+<code>if ( $?DESIGNERSIM ) then</code><code></code><br>
+<code>&nbsp; &nbsp;set path = `eval echo
+'$path:'gs^$DESIGNERSIM^$new_designersim^`<br>
+else<br>
+</code><code>&nbsp; &nbsp;set path = ($path
+$new_designersim)</code><code><br>
+endif</code><br>
+<code>setenv DESIGNERSIM $new_designersim<br>
+rehash</code><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><br>
+</div>
+<br>
+and an alias<br>
+<div style="margin-left: 40px;"><code>alias reworld
+"source&nbsp;<span style="font-style: italic;">/path/</span>reworld.csh
+\!*"</code><br>
+</div>
+<br>
+As with bash/ksh, you can include in <code>reworld.csh</code>
+additional environment variables and aliases that reference <code>BGQHOME:</code><br>
+<br>
+<div style="margin-left: 40px;"><code>setenv BGQ
+$BGQHOME/bgq</code><br>
+<code>alias bgq "cd $BGQ"<br>
+</code></div>
+<p>The variable and alias will track&nbsp;<code>BGQHOME</code>
+as it changes.</p>
+<p>You can also decide how to handle the case where no argument
+is given
+-- for instance, to set <code>BGQHOME</code> to the
+current directory,
+or to revert to
+a default <code>BGQHOME</code> setting.</p>
+<hr>
+This page administered by
+<address><a href="mailto:bjnath@us.ibm.com?subject=Designer%20sim%20instructions">Ben
+Nathanson
+&lt;bjnath@us.ibm.com&gt;</a></address>
+<script language="JavaScript">
+<!--//hide script from old browsers
+document.write( "<I>Last updated "+ document.lastModified +"</I>");
+//end hiding contents -->
+</script>
+</body></html>
