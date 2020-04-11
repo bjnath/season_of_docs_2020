@@ -6,12 +6,13 @@
   max-width: 1000px;
   margin: auto;
 }
-.note {
+#note {
   font-size: 70%;
   line-height: 110%;
   padding: .5em;
   font-family: "Trebuchet MS";
   background-color: #fff5e6;
+  text-align: center;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -25,20 +26,19 @@ html, body, p, th, td, li, dd, dt {
 h1, h2, h3, h4, h5, h6 {
  font-family: Georgia;
  }
- h1 { font-size: 2em; }
+ h1 { font-size: 2em; margin-top: 3em; }
  h2 { font-size: 1.5em; }
  h3 { font-size: 1.2em ; }
  h4 { font-size: 1.0em; }
  h5 { font-size: 0.9em; }
  h6 { font-size: 0.8em; }
 code {
-  font-family: "Lucida Sans Unicode";
+  font-family: "Lucida Console";
   color: #0002bf;
 }
 </style>
 <body>
 <div class="content">
-<div class="note">Note: This page was written in 2008 in hand-coded HTML. I've cosmeticized it slightly with CSS.</div>
 <a name="BGQ_designersim"></a><h1> BG/Q designersim</h1>
 The BG/Q designersim tools streamline the&nbsp;testing of new VHDL.
 You
@@ -605,7 +605,7 @@ arbitrary sim cycle</code><br>
 <code>(Cyc:840) <span style="font-weight: bold;">sticki&nbsp;
 Slow_count_d, 0xdeadbeef</span> # <span style="font-style: italic;">stick</span> immediate</code><br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fac ility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
+facility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
 <code>(Cyc:840) <span style="font-weight: bold;">runx16
 </span># hit a latch clock</code><br>
 <code>(Cyc:865) <span style="font-weight: bold;">unstick&nbsp;Slow_count_d
@@ -2150,7 +2150,7 @@ arbitrary sim cycle</code><br>
 <code>(Cyc:840) <span style="font-weight: bold;">sticki&nbsp;
 Slow_count_d, 0xdeadbeef</span> # <span style="font-style: italic;">stick</span> immediate</code><br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fac ility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
+facility::stickhexImmed(0xdeadbeef,SLOW_COUNT_D)</code><br>
 <code>(Cyc:840) <span style="font-weight: bold;">runx16
 </span># hit a latch clock</code><br>
 <code>(Cyc:865) <span style="font-weight: bold;">unstick&nbsp;Slow_count_d
@@ -3208,5 +3208,6 @@ Nathanson
 document.write( "<I>Last updated "+ document.lastModified +"</I>");
 //end hiding contents -->
 </script>
+<div id="note">Written in 2008 in hand-coded HTML. I've cosmeticized it slightly with CSS.</div>
 </div>
 </body></html>
