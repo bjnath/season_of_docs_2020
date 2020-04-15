@@ -70,11 +70,11 @@ Edited:
 Third clip: Extract from a design spec
 
 I struck a deal with a designer whose work I had to verify: If he
-explained it I'd write the spec. This is a section from the spec, to which I
-contributed 8,000 words. The hardware was doing a number of things that had
+explained it I'd write the spec. This is a section from the spec, for which I
+wrote 8,000 words. The hardware was doing a number of things that had
 never before been done commercially and the concepts needed to be explained in
 detail. A high-ranking engineer later praised the spec as one of the
-best he'd seen.
+best he'd encountered.
 
   2.2.1 Multithreading Model
 
