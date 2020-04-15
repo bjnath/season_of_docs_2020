@@ -70,10 +70,10 @@ Edited:
 Third clip: Extract from a design spec
 
 I struck a deal with a designer whose work I needed to verify: If he
-explained it, I'd write the spec. This is a section from the spec, to which I
+explained it I'd write the spec. This is a section from the spec, to which I
 contributed 8,000 words. The hardware was doing a number of things that had
 never before been done commercially and the concepts needed to be explained in
-detail. The spec was later praised by a high-ranking engineer as one of the
+detail. A high-ranking engineer later praised the spec as one of the
 best he'd seen.
 
   2.2.1 Multithreading Model
