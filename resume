@@ -12,8 +12,9 @@ I love this kind of work, and I'm eager to help.
 
 First clip: Designersim (13,000-word user manual)
 
-For years I wrote C++ for hardware verification. Once a chip is made bugs are
-unfixable. We simulated hardware designs extensively.
+The longest stretch of my career has been writing C++ for hardware
+verification. Once a chip is made bugs are unfixable. We simulated hardware
+designs extensively.
 
 At that time our hardware designers did no unit test  -- the verif tool took
 weeks to learn and needed too much setup. We were seeing bugs everyone wished
