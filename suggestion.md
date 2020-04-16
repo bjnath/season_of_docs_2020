@@ -28,6 +28,6 @@ have the time to write everything -- Seasons of Docs will always be valuable -- 
 they will understand their requirements, and the docs they do have will
 be sound.
 
-<a name="season_fn">[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
-<a name="fish_fn">[2] Typically, "Give a man a fish, and you feed 
+<a name="season_fn"></a>[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
+<a name="fish_fn"></a>[2] Typically, "Give a man a fish, and you feed 
 him for a day. Teach a man to fish, and you feed him for a lifetime."
