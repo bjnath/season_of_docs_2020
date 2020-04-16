@@ -31,7 +31,7 @@ be sound.
 ## Four things called documentation
 
 Divide-and-conquer applies also to docs. Documentation has four goals,
-reulting in four kinds of documentation with four goals and four writing approaches: tutorials, how-to guides, technical reference, and explanation.
+reulting in four kinds of documentation, each with its own writing formula: tutorials, how-to guides, technical reference, and explanation.
 
 This is the stunning insight of Daniele Procida: https://documentation.divio.com/.
 Attacking each goal with the right focus and perspective makes the job easier. (And your docs will be
