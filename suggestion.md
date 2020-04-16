@@ -14,7 +14,7 @@ We have ideas on:
   * surely more bullets..
 
 Seeing is believing, so we include an annotated example of what we'd call a
-good doc job, which you can compare to how it was originally written.
+good doc job, which you can compare to its original version.
 
 
 ## Why this site
