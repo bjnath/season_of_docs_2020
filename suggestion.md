@@ -24,7 +24,7 @@ projects with technical writers [[1]](#season_fn). Though great work got
 done, we recalled the proverb about giving a person a fish versus teaching
 them fishing [[2]](#fish_fn).  We
 resolved to build this site to help developers help themselves. There's never enough hours
-to write everything -- Seasons of Docs will always be valuable -- but
+to write it all up -- Seasons of Docs will always be valuable -- but
 you will better understand your requirements, and the docs you do do write will
 be sound.
 
