@@ -29,5 +29,5 @@ you will better understand your requirements, and the docs you do have will
 be sound.
 
 <a name="season_fn"></a>[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
-<a name="fish_fn"></a>[2] Typically, "Give a man a fish, and you feed 
+<a name="fish_fn"></a>[2] "Give a man a fish, and you feed 
 him for a day. Teach a man to fish, and you feed him for a lifetime."
