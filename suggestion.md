@@ -1,3 +1,5 @@
+# The Good Docs Project
+
 You hate writing it. And reading it.
 
 Our goal (our only goal) is to help developers get on track with
