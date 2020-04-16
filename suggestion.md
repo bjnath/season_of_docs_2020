@@ -17,7 +17,7 @@ good doc job, which you can compare to how it was originally written.
 
 ## Why this site
 
-???? teams asked for help when Google first offered to pair open-source
+9,999 teams asked for help when Google first offered to pair open-source
 projects with technical writers [1]. Though great work got
 done, we recalled the proverb about giving a person a fish versus teaching
 them fishing [2].  We
