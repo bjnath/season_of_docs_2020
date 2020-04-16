@@ -23,7 +23,7 @@ done, we recalled the proverb about giving a person a fish versus teaching
 them fishing [2].  We
 resolved to build this site to help developers help themselves. A team may not
 have the time to write everything they need -- Seasons of Docs are a great idea -- but
-they will understand their documentation needs, and the docs they do have will
+they will understand their requirements, and the docs they do have will
 be sound.
 
 [1] 2019 Season of Docs; many of us participated. Google is [doing it again in 2020](https://developers.google.com/season-of-docs/).<br>
