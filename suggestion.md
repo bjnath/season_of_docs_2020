@@ -26,6 +26,6 @@ have the time to write everything -- Seasons of Docs will always be valuable -- 
 they will understand their requirements, and the docs they do have will
 be sound.
 
-[1] 2019 Season of Docs; several of us participated. The 2020 Season of Docs [is getting underway](https://developers.google.com/season-of-docs/).<br>
+[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.
 [2] Typically, "Give a man a fish, and you feed 
 him for a day. Teach a man to fish, and you feed him for a lifetime."
