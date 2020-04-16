@@ -20,14 +20,14 @@ good doc job, which you can compare to its original version.
 ## Why this site
 
 9,999 teams asked for help when Google first offered to pair open-source
-projects with technical writers [1]. Though great work got
+projects with technical writers [[1]](#season_fn). Though great work got
 done, we recalled the proverb about giving a person a fish versus teaching
-them fishing [2].  We
+them fishing [[2]](#fish_fn).  We
 resolved to build this site to help developers help themselves. A team may not
 have the time to write everything -- Seasons of Docs will always be valuable -- but
 they will understand their requirements, and the docs they do have will
 be sound.
 
-[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
-[2] Typically, "Give a man a fish, and you feed 
+<a name="season_fn">[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
+<a name="fish_fn">[2] Typically, "Give a man a fish, and you feed 
 him for a day. Teach a man to fish, and you feed him for a lifetime."
