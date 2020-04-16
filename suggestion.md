@@ -23,9 +23,9 @@ well-documented project. You can copy its moves. You can see its original versio
 projects with technical writers [[1]](#season_fn). Though great work got
 done, we recalled the proverb about giving a person a fish versus teaching
 them fishing [[2]](#fish_fn).  We
-resolved to build this site to help developers help themselves. A team may not
-have time to write everything -- Seasons of Docs will always be valuable -- but
-they will understand their requirements, and the docs they do have will
+resolved to build this site to help developers help themselves. There's never enough hours
+to write everything -- Seasons of Docs will always be valuable -- but
+you will better understand your requirements, and the docs you do have will
 be sound.
 
 <a name="season_fn"></a>[1] 2019 Season of Docs; several of us participated. We look forward to rejoining as [the 2020 Season of Docs](https://developers.google.com/season-of-docs/) gets underway.<br>
