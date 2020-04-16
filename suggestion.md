@@ -14,7 +14,7 @@ We have ideas on:
   * surely more bullets..
 
 Seeing is believing, so we include an annotated example of what we'd call a
-good doc job, which you can compare to its original version.
+well-documented project. You can copy its moves. You can see its original version.
 
 
 ## Why this site
