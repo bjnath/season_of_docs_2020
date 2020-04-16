@@ -31,7 +31,11 @@ be sound.
 ## Four things called documentation
 
 Divide-and-conquer applies also to docs. Documentation has four goals,
-resulting in four classes of document, each with its own writing formula: tutorials, how-to guides, technical reference, and explanation.
+resulting in four classes of document, each with its own writing formula: 
+* tutorial
+* how-to guide
+* technical reference
+* explanation
 
 This is the stunning insight of [Daniele Procida](https://documentation.divio.com).
 Attacking each goal with the right focus and perspective makes the job easier. (And your docs will be
