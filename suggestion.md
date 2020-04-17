@@ -16,7 +16,7 @@ Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other k
 preformatted in Markdown and RestructuredText
 
 
-## Why this site
+## Why this project
 
 9,999 (real figure?) teams asked for help when Google first offered to pair open-source
 projects with technical writers [[1]](#season_fn). Though great work got
