@@ -10,8 +10,6 @@ We have ideas on:
   * What you need to say
   * And where
   * And how much -- from Minimum Viable Documentation up to Unabridged
-  * How to get help
-  * surely more bullets..
 
 Why draw if you can just color? The Good Docs Project is the Big Coloring Book of Documentation.
 Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other kinds of documentation,
