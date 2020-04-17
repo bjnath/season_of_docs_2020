@@ -13,13 +13,14 @@ We have ideas on:
   * How to get help
   * surely more bullets..
 
-Seeing is believing, so we include an annotated example of what we'd call a
-well-documented project. You can copy its moves. You can see its original version.
+Why draw if you can just color? The Good Docs Project is the Big Coloring Book of Documentation.
+Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other kinds of documentation,
+preformatted in Markdown and RestructuredText
 
 
 ## Why this site
 
-9,999 teams asked for help when Google first offered to pair open-source
+9,999 (real figure?) teams asked for help when Google first offered to pair open-source
 projects with technical writers [[1]](#season_fn). Though great work got
 done, we recalled the proverb about giving a person a fish versus teaching
 them fishing [[2]](#fish_fn).  We
@@ -38,7 +39,7 @@ resulting in four classes of document, each with its own writing formula:
 * explanation
 
 This is the stunning insight of [Daniele Procida](https://documentation.divio.com).
-Attacking each goal with the right focus and perspective makes the job easier. (And your docs will be
+Attacking each goal with its formula in mind makes the job easier. (And your docs will be
 better organized, and readers will have an easier time finding what they need.)
 
 
