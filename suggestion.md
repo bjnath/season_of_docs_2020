@@ -12,8 +12,7 @@ We have ideas on:
   * And how much -- from Minimum Viable Documentation up to Unabridged
 
 The Good Docs Project is the Big Coloring Book of Documentation.
-Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other kinds of documentation,
-preformatted in Markdown and RestructuredText
+Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other kinds of documentation.
 
 
 ## Why this project
