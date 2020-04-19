@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@700&family=Frank+Ruhl+Libre&display=swap" rel="stylesheet">
+<title>L2 spec excerpt</title>
+<style>
+body {
+  font-family: 'Georgia';
+  font-size: 21pt;
+  line-height: 160%;
+  width: 40%;
+  margin: auto;
+}
+h1, h2, h3 {
+  font-family: 'Arimo', sans-serif;
+  margin-bottom: 0;
+  margin-top: 1.4em;
+}
+h3 {
+  font-size: 2.4rem;
+}
+</style>
+</head>
+
+<body>
+
+<h3>2.2.1 Multithreading Model</h3>
+
+<p>In speculative multithreading, successive sections of sequential code are assigned to hardware threads to run simultaneously. </p>
+
+<p>Each thread has the illusion of executing its task in program order. It sees its own writes and writes that occurred earlier in the program. </p>
+
+<p>It does not see writes that take place later in program order even if &mdash; because of the concurrent execution &mdash; these writes have actually taken place earlier in time.
+</p>
+
+<p>To sustain the illusion, the L2 gives threads private storage as needed.  It lets threads read their own writes and writes from threads earlier in program order, but isolates their reads from threads later in program order.</p>
+
+<p>Thus, the L2 might have several different data values for a single address. Each occupies an L2 way, and the L2 directory records, in addition to the usual directory information, a history of which threads have read or written the line. </p>
+
+<p>A speculative write is never allowed to be written out to main memory.
+</p>
+
+<p>Only one situation will break the program-order illusion: a thread earlier in program order writes to an address that a thread later in program order has already read.</p>
+
+<p>The later thread should have read that data, but did not. The solution is to kill the later thread and invalidate all the lines it has written in L2, and to repeat this for all younger threads.</p>
+
+<p>Otherwise a thread can complete successfully, and its writes can move to DDR when the line is cast out or flushed.
+</p>
+
+<p>Not all threads are speculative.  The running thread earliest in program order is non-speculative, or committed, and runs conventionally; in particular its writes can go to DDR.  The threads later in program order are speculative and are subject to be killed. When the committed thread completes, the next-oldest thread becomes the committed thread.
+</p>
+
+<p>Tracking each thread&rsquo;s reads and writes requires that the L1 data cache be cleared at the start of execution.  L1 does not need to be disabled, but the first read to any address must be visible. For writes, the most recent write needs to be visible; this is done by setting the caches write-through.
+</p>
+
+</body>
+</html>
