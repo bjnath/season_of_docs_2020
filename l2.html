@@ -50,8 +50,5 @@ h3 {
 <p>Not all threads are speculative.  The running thread earliest in program order is non-speculative, or committed, and runs conventionally; in particular its writes can go to DDR.  The threads later in program order are speculative and are subject to be killed. When the committed thread completes, the next-oldest thread becomes the committed thread.
 </p>
 
-<p>Tracking each thread&rsquo;s reads and writes requires that the L1 data cache be cleared at the start of execution.  L1 does not need to be disabled, but the first read to any address must be visible. For writes, the most recent write needs to be visible; this is done by setting the caches write-through.
-</p>
-
 </body>
 </html>
