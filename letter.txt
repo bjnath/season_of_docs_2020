@@ -4,9 +4,9 @@ Africa.
 
 I'm an engineer. Your work will excite me as much as it excites you.
 
-And I write technical documentation. You see your project not as lines of
-code, but stories: Why you started it. Why it works the way it does. How to
-use it. How to fix it and add to it. Words are all that's missing.
+And I write technical documentation. To you the code isn't glyphs on a screen,
+it's stories: Why you started it. Why it works the way it does. How to use it.
+How to fix it and add to it. Words are all that's missing.
 
 You can see samples of my technical documentation and a bio at
 https://docs2020.bennathanson.com.
