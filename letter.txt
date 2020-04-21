@@ -8,24 +8,4 @@ And I write technical documentation. To you the code isn't glyphs on a screen,
 it's stories: Why you started it. Why it works the way it does. How to use it.
 How to fix it and add to it. Words are all that's missing.
 
-You can see samples of my technical documentation and a bio at
-https://docs2020.bennathanson.com.
-
-
-
-
-
-
-
-
--- boxes on a page, characters on a screen --
-
-
-I will be as excited as you
-which is why I'm participating in Season of Docs as a technical writer.
-
-, and as a result the drawing on the page will come off the page and be real.
-
-
-
-
+Writing samples and a bio: https://docs2020.bennathanson.com.
