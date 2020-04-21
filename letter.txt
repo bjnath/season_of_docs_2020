@@ -4,12 +4,12 @@ Africa.
 
 I'm an engineer. Your work will excite me as much as it excites you.
 
-And I write technical documentation. To you, your project isn't boxes on a page
-and characters on a screen, but stories: Why it was done. Why it works the way
-it works. How you go about using it. How you go about changing it. All that's
-missing is words.
+And I write technical documentation. You see your project not as boxes on a
+page and characters on a screen, but stories: Why you started it. Why it works
+the way it does. How to use it. How to fix it and add to it. Words are all
+that's missing.
 
-See samples of my technical documentation and a bio at
+You can see samples of my technical documentation and a bio at
 https://docs2020.bennathanson.com.
 
 
