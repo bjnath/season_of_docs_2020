@@ -19,8 +19,7 @@ Open it to find fill-in-the-blanks templates for tutorials, how-tos, and other k
 
 9,999 (real figure?) teams asked for help when Google first offered to pair open-source
 projects with technical writers [[1]](#season_fn). Though great work got
-done, we recalled the proverb about giving a person a fish versus teaching
-them fishing [[2]](#fish_fn).  We
+done, we recalled the proverb about giving a person a fish [[2]](#fish_fn).  We
 resolved to build this site to help developers help themselves. There's never enough hours
 to write it all up -- Seasons of Docs will always be valuable -- but
 you will better understand your requirements, and the docs you do write will
